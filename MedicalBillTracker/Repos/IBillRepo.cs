@@ -5,6 +5,7 @@ namespace MedicalBillTracker.Repos
     public interface IBillRepo
     {
     List<Bill> GetAll();
-       
+     Bill? GetById(int id);
+
     }
 }

@@ -23,8 +23,17 @@ namespace MedicalBillTracker.Controllers
             if (bills == null) return NotFound();
             return Ok(bills);
         }
+        // GET api/<PaperController>/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var bill = _billRepo.GetById(id);
+            if (bill == null) return NotFound();
+            return Ok(bill);
+        }
 
-       // GET: BillController/Details/5
+
+        // GET: BillController/Details/5
         //public ActionResult Details(int id)
         //{
         //    return View();
@@ -36,20 +45,20 @@ namespace MedicalBillTracker.Controllers
         //    return View();
         //}
 
-       // POST: BillController/Create
-       //[HttpPost]
-       //[ValidateAntiForgeryToken]
-       // public ActionResult Create(IFormCollection collection)
-       // {
-       //     try
-       //     {
-       //         return RedirectToAction(nameof(Index));
-       //     }
-       //     catch
-       //     {
-       //         return View();
-       //     }
-       // }
+        // POST: BillController/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        // public ActionResult Create(IFormCollection collection)
+        // {
+        //     try
+        //     {
+        //         return RedirectToAction(nameof(Index));
+        //     }
+        //     catch
+        //     {
+        //         return View();
+        //     }
+        // }
 
         //GET: BillController/Edit/5
         //public ActionResult Edit(int id)
@@ -72,7 +81,7 @@ namespace MedicalBillTracker.Controllers
         //    }
         //}
 
-       // GET: BillController/Delete/5
+        // GET: BillController/Delete/5
         //public ActionResult Delete(int id)
         //{
         //    return View();
