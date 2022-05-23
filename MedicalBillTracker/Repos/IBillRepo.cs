@@ -6,6 +6,7 @@ namespace MedicalBillTracker.Repos
     {
     List<Bill> GetAll();
      Bill? GetById(int id);
+      void AddBill(Bill bill);
 
     }
 }

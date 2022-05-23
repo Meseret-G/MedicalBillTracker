@@ -87,6 +87,32 @@ namespace MedicalBillTracker.Repos
             }
         }
 
+        public void AddBill(Bill bill)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Bill (Title, [Provider],ImageURL,OutOfPocket, IsOpen)
+                        OUTPUT INSERTED.ID
+                        VALUES (@title, @provider,@imageURL,@outOfPocket, @isOpen);
+                    ";
+
+                    cmd.Parameters.AddWithValue("@title", bill.Title);
+                    cmd.Parameters.AddWithValue("@provider", bill.Provider);
+                    cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
+                    cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
+                    cmd.Parameters.AddWithValue("@isOpen", bill.IsOpen);
+                  
+                    int id = (int)cmd.ExecuteScalar();
+
+                    bill.Id = id;
+                }
+            }
+        }
 
     }
 }
