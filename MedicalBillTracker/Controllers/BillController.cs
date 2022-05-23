@@ -23,7 +23,7 @@ namespace MedicalBillTracker.Controllers
             if (bills == null) return NotFound();
             return Ok(bills);
         }
-        // GET api/<PaperController>/5
+        // GET api/<BillController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -32,74 +32,22 @@ namespace MedicalBillTracker.Controllers
             return Ok(bill);
         }
 
+        // POST api/<BillController>
 
-        // GET: BillController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult PostBill([FromBody] Bill newBill)
+        {
+            if (newBill == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _billRepo.AddBill(newBill);
+                return Ok(newBill);
+            }
 
-        //GET: BillController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        }
 
-        // POST: BillController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        // public ActionResult Create(IFormCollection collection)
-        // {
-        //     try
-        //     {
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     catch
-        //     {
-        //         return View();
-        //     }
-        // }
-
-        //GET: BillController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //POST: BillController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: BillController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: BillController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }
