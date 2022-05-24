@@ -72,6 +72,4 @@ INSERT INTO Archive (PatientId, IsOpen) VALUES (2345, 0);
 INSERT INTO Archive (PatientId, IsOpen) VALUES (2875, 0);
 
 
-select * From Bill;
-
 
