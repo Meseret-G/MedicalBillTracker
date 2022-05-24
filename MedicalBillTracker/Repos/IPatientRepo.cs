@@ -5,5 +5,6 @@ namespace MedicalBillTracker.Repos
     public interface IPatientRepo
     {
         int CreatePatient(Patient patient);
+        Patient GetPatientByEmail(string email);
     }
 }
