@@ -100,7 +100,7 @@ namespace MedicalBillTracker.Repos
                         OUTPUT INSERTED.ID
                         VALUES (@title, @provider,@imageURL,@outOfPocket, @isOpen);
                     ";
-
+                 
                     cmd.Parameters.AddWithValue("@title", bill.Title);
                     cmd.Parameters.AddWithValue("@provider", bill.Provider);
                     cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
@@ -110,6 +110,31 @@ namespace MedicalBillTracker.Repos
                     int id = (int)cmd.ExecuteScalar();
 
                     bill.Id = id;
+                }
+            }
+        }
+        public void UpdateBill(int id, Bill bill)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Bill
+                                        SET Title = @title,
+	                                        Provider = @provider,
+	                                        ImageURL = @imageURL,
+	                                        OutOfPocket = @outOfPocket,
+	                                        IsOpen = @isOpen
+		                                        WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@title", bill.Title);
+                    cmd.Parameters.AddWithValue("@provider", bill.Provider);
+                    cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
+                    cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
+                    cmd.Parameters.AddWithValue("@isOpen", bill.IsOpen);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
