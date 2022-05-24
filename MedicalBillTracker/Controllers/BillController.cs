@@ -15,6 +15,7 @@ namespace MedicalBillTracker.Controllers
         {
             _billRepo = billRepo;
         }
+
         // GET: BillController
         [HttpGet]
         public IActionResult Index()
@@ -23,6 +24,7 @@ namespace MedicalBillTracker.Controllers
             if (bills == null) return NotFound();
             return Ok(bills);
         }
+
         // GET api/<BillController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -33,7 +35,6 @@ namespace MedicalBillTracker.Controllers
         }
 
         // POST api/<BillController>
-
         [HttpPost]
         public IActionResult PostBill([FromBody] Bill newBill)
         {
@@ -46,7 +47,22 @@ namespace MedicalBillTracker.Controllers
                 _billRepo.AddBill(newBill);
                 return Ok(newBill);
             }
+        }
 
+        // PATCH: api/<BillController>/Edit/5
+        [HttpPut("Edit/{id}")]
+        public IActionResult UpdatePaper(int id, [FromBody] Bill billObj)
+        {
+            try
+            {
+                _billRepo.UpdateBill(id, billObj);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
         }
 
     }
