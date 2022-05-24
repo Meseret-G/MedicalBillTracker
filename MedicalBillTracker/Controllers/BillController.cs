@@ -65,5 +65,12 @@ namespace MedicalBillTracker.Controllers
             }
         }
 
+        // DELETE api/<BillController>/5
+        [HttpDelete("Delete/{id}")]
+        public void Delete(int id)
+        {
+            _billRepo.DeleteBill(id);
+
+        }
     }
 }
