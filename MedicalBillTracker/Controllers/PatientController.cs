@@ -44,5 +44,19 @@ namespace MedicalBillTracker.Controllers
             return Ok(patient);
         }
 
+        // GET api/<PatientController>/5
+        [HttpGet("UID/{uid}")]
+        public IActionResult GetPatientByUID(string uid)
+        {
+            Patient patient = _patientRepo.GetPatientByUID(uid);
+
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            return Ok(patient);
+        }
+
+
     }
 }

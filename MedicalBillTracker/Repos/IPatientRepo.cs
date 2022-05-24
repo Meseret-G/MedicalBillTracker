@@ -6,5 +6,6 @@ namespace MedicalBillTracker.Repos
     {
         int CreatePatient(Patient patient);
         Patient GetPatientByEmail(string email);
+        Patient GetPatientByUID(string uid);
     }
 }
