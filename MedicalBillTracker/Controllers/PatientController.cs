@@ -58,5 +58,27 @@ namespace MedicalBillTracker.Controllers
         }
 
 
+        // GET api/Auth/<CustomerController>
+       
+        //[HttpGet()]
+        //public IActionResult PatientExist (string uid)
+        //{
+          
+        //    bool patientExists = _patientRepo.PatientExists(uid);
+        //    if (!patientExists)
+        //    {
+        //        Patient patient = new Patient()
+        //        {
+        //           return Ok(patient);
+        //    };
+
+        //        int patientId = _patientRepo.CreatePatient(Patient newPatient);
+        //        return Ok($" Patient ID={patientId}");
+
+        //    }
+        //    return Ok("Customer Exists");
+
+        //}
+
     }
 }

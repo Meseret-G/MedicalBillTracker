@@ -112,6 +112,34 @@ namespace MedicalBillTracker.Repos
             }
         }
 
+        //public bool PatientExists(string uid)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"
+        //                                SELECT * FROM Patient
+        //                                WHERE UID = @uid 
+        //                                ";
+        //            cmd.Parameters.AddWithValue("@uid", uid);
+
+        //            SqlDataReader reader = cmd.ExecuteReader();
+
+        //            if (reader.Read())
+        //            {
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //                reader.Close();
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //}
+
 
     }
 }
