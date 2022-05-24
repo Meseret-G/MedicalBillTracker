@@ -1,6 +1,9 @@
-﻿namespace MedicalBillTracker.Repos
+﻿using MedicalBillTracker.Models;
+
+namespace MedicalBillTracker.Repos
 {
-    public class IPatientRepo
+    public interface IPatientRepo
     {
+        int CreatePatient(Patient patient);
     }
 }

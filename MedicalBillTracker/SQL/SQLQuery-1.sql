@@ -22,7 +22,7 @@ CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL,
-    [UID] VARCHAR(55) UNIQUE,
+    [UID] VARCHAR(55) NOT NULL UNIQUE,
     CONSTRAINT UQ_Email UNIQUE(Email)
 );
 
@@ -70,5 +70,6 @@ INSERT INTO Archive (PatientId, IsOpen) VALUES (1234, 0);
 INSERT INTO Archive (PatientId, IsOpen) VALUES (3456, 0);
 INSERT INTO Archive (PatientId, IsOpen) VALUES (2345, 0);
 INSERT INTO Archive (PatientId, IsOpen) VALUES (2875, 0);
+
 
 
