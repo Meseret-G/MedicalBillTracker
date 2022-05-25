@@ -7,5 +7,6 @@ namespace MedicalBillTracker.Repos
 
         public List<Archive> GetAllArchivesByUID(string uid);
         public List<Archive> GetAllArchives();
+        
     }
 }
