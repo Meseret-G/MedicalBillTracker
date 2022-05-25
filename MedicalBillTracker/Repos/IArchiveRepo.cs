@@ -1,6 +1,11 @@
-﻿namespace MedicalBillTracker.Repos
+﻿using MedicalBillTracker.Models;
+
+namespace MedicalBillTracker.Repos
 {
-    public class IArchiveRepo
+    public interface IArchiveRepo
     {
+
+        public List<Archive> GetAllArchivesByUID(string uid);
+        public List<Archive> GetAllArchives();
     }
 }
