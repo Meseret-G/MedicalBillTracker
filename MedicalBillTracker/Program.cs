@@ -1,4 +1,8 @@
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using MedicalBillTracker.Repos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,24 @@ builder.Services.AddTransient<IPatientRepo, PatientRepo>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile(builder.Configuration["fbCredPath"]),
+});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.IncludeErrorDetails = true;
+    options.Authority = "https://securetoken.google.com/MedicalBillTracker"; //use your project name
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = "https://securetoken.google.com/MedicalBillTracker", //use your project name
+        ValidateAudience = true,
+        ValidAudience = "MedicalBillTracker",  //use your project name
+        ValidateLifetime = true,
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +44,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
