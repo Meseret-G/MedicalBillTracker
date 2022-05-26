@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import auth from './Data/auth/apiKey';
+import { useNavigate } from 'react-router-dom';
+import { patientExistsInDB } from './Data/PatientData';
 
 function App() {
+  const [ setPatient] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (authed) => {
+      if(authed) {
+        const patientObj = {
+          Name: authed.displayName,
+          uid: authed.uid,
+          profilePic: authed.photoURL,
+          username: authed.email.split('@')[0],
+          accessToken: authed.accessToken,
+        };
+        setPatient(patientObj);
+        sessionStorage.setItem("token", authed.accessToken);
+        sessionStorage.setItem("uid", authed.uid);
+        patientExistsInDB(authed.accessToken).then(setPatient(patientObj));
+      } else {
+    
+        setPatient(false);
+        sessionStorage.removeItem("token");
+        navigate('/');
+      }
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" color='black'>
+      This is the app
     </div>
   );
 }
