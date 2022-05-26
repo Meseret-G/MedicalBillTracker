@@ -22,13 +22,13 @@ FirebaseApp.Create(new AppOptions()
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.IncludeErrorDetails = true;
-    options.Authority = "https://securetoken.google.com/MedicalBillTracker"; //use your project name
+    options.Authority = "https://securetoken.google.com/medicalbilltracker-bed2c"; //use your project name
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = "https://securetoken.google.com/MedicalBillTracker", //use your project name
+        ValidIssuer = "https://securetoken.google.com/medicalbilltracker-bed2c", //use your project name
         ValidateAudience = true,
-        ValidAudience = "MedicalBillTracker",  //use your project name
+        ValidAudience = "medicalbilltracker-bed2c",  //use your project name
         ValidateLifetime = true,
     };
 });
