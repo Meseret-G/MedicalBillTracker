@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { patientExistsInDB } from './Data/PatientData';
 
 function App() {
-  const [ setPatient] = useState(null);
+  const [ patient, setPatient] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,20 +20,20 @@ function App() {
           accessToken: authed.accessToken,
         };
         setPatient(patientObj);
-        sessionStorage.setItem("token", authed.accessToken);
+        sessionStorage.setItem("idToken", authed.accessToken);
         sessionStorage.setItem("uid", authed.uid);
         patientExistsInDB(authed.accessToken).then(setPatient(patientObj));
       } else {
     
         setPatient(false);
-        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("idToken");
         navigate('/');
       }
     });
   }, []);
 
   return (
-    <div className="App" color='black'>
+    <div className="App" >
       This is the app
     </div>
   );
