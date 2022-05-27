@@ -15,8 +15,8 @@ function App() {
         const patientObj = {
           Name: authed.displayName,
           uid: authed.uid,
-          profilePic: authed.photoURL,
-          username: authed.email.split('@')[0],
+          //profilePic: authed.photoURL,
+          //username: authed.email.split('@')[0],
           accessToken: authed.accessToken,
         };
         setPatient(patientObj);
