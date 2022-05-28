@@ -83,8 +83,80 @@ namespace MedicalBillTracker.Repos
                     }
                 }
 
+        public int AddNewArchive(string patientId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        INSERT INTO [Archive]
+                                        (PatientId, IsOpen)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@patientId, @isOpen)
+                                        ";
+                    cmd.Parameters.AddWithValue("@patientId", patientId);
+                    cmd.Parameters.AddWithValue("@isOpen", true);
 
+                    int id = (int)cmd.ExecuteScalar();
+
+                    return id;
+                }
             }
         }
+
+        public Archive? GetOpenArchiveByUID(string uid)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        Select Id, PatientId, IsOpen
+                                        FROM [Archive]
+                                        WHERE PatientId = @uid AND isOpen = 1
+                                      ";
+                    cmd.Parameters.AddWithValue("@uid", uid);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Archive patientArchive = new Archive()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                PatientId = reader.GetString(reader.GetOrdinal("PatientId")),
+                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
+                            };
+                            return patientArchive;
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+        public void CloseArchive(int archiveId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [Archive]
+                        SET isOpen = 0
+                        WHERE Id = @archiveId";
+
+                    cmd.Parameters.AddWithValue("@archiveId", archiveId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+}
     
 
