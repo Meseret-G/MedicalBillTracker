@@ -3,21 +3,32 @@ using Google.Apis.Auth.OAuth2;
 using MedicalBillTracker.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MedicalBillTracker.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                       policy =>
+                       {
+                           policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                       });
+});
 builder.Services.AddControllers();
-builder.Services.AddTransient<IBillRepo, BillRepo>();
-builder.Services.AddTransient<IPatientRepo, PatientRepo>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddTransient<IBillRepo, BillRepo>();
+builder.Services.AddTransient<IPatientRepo, PatientRepo>();
+//builder.Services.AddTransient<IArchiveRepo, ArchiveRepo>();
+//builder.Services.AddTransient<IArchiveItemRepo, ArchiveItemRepo>();
+var FirebaseSDKPath = builder.Configuration["fbCredPath"];
+//Firebase Authentication 
 FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromFile(builder.Configuration["fbCredPath"]),
+    Credential = GoogleCredential.FromFile(FirebaseSDKPath)
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -43,7 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 

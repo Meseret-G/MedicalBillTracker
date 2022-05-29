@@ -40,7 +40,7 @@ namespace MedicalBillTracker.Repos
                             Archive archive = new Archive()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                PatientId = reader.GetString(reader.GetOrdinal("PatientId")),
+                                PatientId = reader.GetInt32(reader.GetOrdinal("PatientId")),
                                 IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
                             };
                             archives.Add(archive);
@@ -50,7 +50,7 @@ namespace MedicalBillTracker.Repos
                 }
             }
         }
-                public List<Archive> GetAllArchivesByUID(string uid)
+                public List<Archive> GetAllArchivesByFirebaseKeyId(int patientId)
                 {
                     using (SqlConnection conn = Connection)
                     {
@@ -60,9 +60,9 @@ namespace MedicalBillTracker.Repos
                             cmd.CommandText = @"
                                         Select *
                                         FROM [Archive]
-                                        WHERE PatientId = @uid
+                                        WHERE PatientId = @firebaseKeyId
                                       ";
-                            cmd.Parameters.AddWithValue("@uid", uid);
+                            cmd.Parameters.AddWithValue("@firebaseKeyId", patientId);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -72,8 +72,9 @@ namespace MedicalBillTracker.Repos
                                     Archive patientArchive = new Archive()
                                     {
                                         Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                        PatientId = reader.GetString(reader.GetOrdinal("PatientId")),
+                                        PatientId = reader.GetInt32(reader.GetOrdinal("PatientId")),
                                         IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
+                                        //FirebaseKeyId = reader.GetString(reader.GetOrdinal(" FirebaseKeyId")),
                                     };
                                     patientArchives.Add(patientArchive);
                                 }
@@ -83,7 +84,7 @@ namespace MedicalBillTracker.Repos
                     }
                 }
 
-        public int AddNewArchive(string patientId)
+        public int AddNewArchive(int patientId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -106,7 +107,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public Archive? GetOpenArchiveByUID(string uid)
+        public Archive GetOpenArchiveByFirebaseKeyId(int patientId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -116,9 +117,9 @@ namespace MedicalBillTracker.Repos
                     cmd.CommandText = @"
                                         Select Id, PatientId, IsOpen
                                         FROM [Archive]
-                                        WHERE PatientId = @uid AND isOpen = 1
+                                        WHERE PatientId = @firebaseKeyId AND isOpen = 1
                                       ";
-                    cmd.Parameters.AddWithValue("@uid", uid);
+                    cmd.Parameters.AddWithValue("@firebaseKeyId", patientId);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -127,7 +128,7 @@ namespace MedicalBillTracker.Repos
                             Archive patientArchive = new Archive()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                PatientId = reader.GetString(reader.GetOrdinal("PatientId")),
+                                PatientId = reader.GetInt32(reader.GetOrdinal("PatientId")),
                                 IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
                             };
                             return patientArchive;

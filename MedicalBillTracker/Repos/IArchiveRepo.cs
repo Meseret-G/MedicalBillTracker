@@ -5,10 +5,10 @@ namespace MedicalBillTracker.Repos
     public interface IArchiveRepo
     {
 
-        public List<Archive> GetAllArchivesByUID(string uid);
+        public List<Archive> GetAllArchivesByFirebaseKeyId(int patientId);
         public List<Archive> GetAllArchives();
-        public int AddNewArchive(string patientId);
-        public Archive? GetOpenArchiveByUID(string uid);
+        public int AddNewArchive(int patientId);
+        public Archive? GetOpenArchiveByFirebaseKeyId(int patientId);
         public void CloseArchive(int archiveId);
 
     }
