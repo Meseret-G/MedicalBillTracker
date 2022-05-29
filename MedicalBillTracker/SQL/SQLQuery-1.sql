@@ -72,4 +72,20 @@ INSERT INTO Archive (PatientId, IsOpen) VALUES (2345, 0);
 INSERT INTO Archive (PatientId, IsOpen) VALUES (2875, 0);
 
 
+select * FROM
+dbo.Bill;
 
+select * FROM
+dbo.Patient;
+
+EXEC sp_RENAME 'Patient.UID' , 'FirebaseKeyId', 'COLUMN'
+
+ALTER TABLE ArchiveItem
+DROP COLUMN BillReceived
+
+select * FROM ArchiveItem
+
+
+EXEC sp_RENAME 'Patient.FirebaseKeyId' , 'UID', 'COLUMN'
+
+select  * FROM Patient

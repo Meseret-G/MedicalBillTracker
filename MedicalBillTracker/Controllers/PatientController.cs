@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalBillTracker.Controllers
 {
     [Route("api/[controller]")]
+
     [ApiController]
     public class PatientController : Controller
     {
@@ -17,21 +18,71 @@ namespace MedicalBillTracker.Controllers
             _patientRepo = patientRepo;
         }
 
-        // GET: PatientController
+        // Create new patient
+        // GET: PatientController 
 
         [HttpPost]
-        public IActionResult PostPatient([FromBody] Patient newPatient)
+        public ActionResult PostPatient(Patient newpatient)
         {
-            if (newPatient == null)
+            if (newpatient == null)
             {
                 return NotFound();
             }
             else
             {
-                _patientRepo.CreatePatient(newPatient);
-                return Ok(newPatient);
+                _patientRepo.CreatePatient(newpatient);
+                return Ok(newpatient);
             }
         }
+
+        // Get a Patient by their firebaseKey  
+
+        // GET api/<PatientController>/5
+        [HttpGet("Patient/{firebaseKeyId}")]
+        public ActionResult GetPatientByFirebaseId(string firebaseKeyId)
+        {
+            Patient patient = _patientRepo.GetPatientByFirebaseKeyId(firebaseKeyId);
+
+            if (patient == null)
+            {
+
+                return NotFound();
+            }
+            else
+            {
+                return Ok(patient);
+            }
+        }
+
+
+
+       
+       [Authorize]
+        [HttpGet("Auth")]
+        public async Task<IActionResult> GetPatientAuthStatus()
+        {
+                string uid = User.FindFirst(claim => claim.Type == "user_id").Value;
+                //FirebaseToken decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
+                //var token = User.FindFirst(Claim => Claim.Type == "user_id");
+                //var uid = decoded.Uid;
+                bool patientexists = _patientRepo.PatientExists(uid);
+            if (!patientexists)
+            {
+                Patient patientFromToken = new Patient()
+                {
+                    Name = User.Identity.Name,
+                    FirebaseKeyId = uid,
+                };
+
+             _patientRepo.CreatePatient(patientFromToken);
+                return Ok();
+
+            }
+            Patient existingPatient = _patientRepo.GetPatientByFirebaseKeyId(uid);
+            return Ok(existingPatient);
+
+        }
+
         // GET api/<PatientController>/Email/5
         [HttpGet("Email/{email}")]
         public IActionResult GetPatientByEmail(string email)
@@ -43,44 +94,6 @@ namespace MedicalBillTracker.Controllers
                 return NotFound();
             }
             return Ok(patient);
-        }
-
-        // GET api/<PatientController>/5
-        [HttpGet("UID/{uid}")]
-        public IActionResult GetPatientByUID(string uid)
-        {
-            Patient patient = _patientRepo.GetPatientByUID(uid);
-
-            if (patient == null)
-            {
-                return NotFound();
-            }
-            return Ok(patient);
-        }
-       
-        [Authorize]
-        [HttpGet("Auth")]
-        public async Task<IActionResult> PostAsync([FromHeader] string idToken)
-        {
-            FirebaseToken decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
-            var token = User.FindFirst(Claim => Claim.Type == "user_id");
-            var uid = decoded.Uid;
-            bool patientExists = _patientRepo.PatientExists(uid);
-            if (!patientExists)
-            {
-                Patient userFromToken = new Patient()
-                {
-                    Name = (string)decoded.Claims.GetValueOrDefault("name"),
-                    Email = (string)decoded.Claims.GetValueOrDefault("email"),
-                    UID = uid,
-                };
-
-                int patientId = _patientRepo.CreatePatient(userFromToken);
-                return Ok($"Patient Created ID={patientId}");
-
-            }
-            return Ok("Patient Exists");
-
         }
 
     }

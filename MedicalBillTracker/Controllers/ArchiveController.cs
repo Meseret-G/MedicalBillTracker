@@ -1,4 +1,4 @@
-﻿using medicalbilltracker.models;
+﻿
 using MedicalBillTracker.Models;
 using MedicalBillTracker.Repos;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +13,7 @@ namespace MedicalBillTracker.Controllers
     {
         private readonly IArchiveItemRepo _archiveItemRepo;
         private readonly IArchiveRepo _archiveRepo;
+     
 
 
 
@@ -24,36 +25,37 @@ namespace MedicalBillTracker.Controllers
 
         }
 
-        [Authorize]
-        [HttpPost("Add")]
-        public IActionResult AddForReview([FromBody] ArchiveItem item)
-        {
-            var uid = User.FindFirst(Claim => Claim.Type == "user_id").Value.ToString();
-            var archive = _archiveRepo.GetOpenArchiveByUID(uid);
-            if (archive == null)
-            {
-                int id = _archiveRepo.AddNewArchive(uid);
-                item.ArchiveId = id;
-                _archiveItemRepo.AddArchiveItem(item);
-                return Ok(item);
+        //[Authorize]
+        //[HttpPost("Add")]
+        //public IActionResult AddForReview([FromBody] ArchiveItem item)
+        //{
+        //    var uid = User.FindFirst(Claim => Claim.Type == "user_id").Value.ToString();
+        //    var archive = _archiveRepo.GetOpenArchiveByFirebaseKeyId(id);
+        //    if (archive == null)
+        //    {
+        //        int id = _archiveRepo.AddNewArchive(uid);
+        //        item.ArchiveId = id;
+        //        _archiveItemRepo.AddArchiveItem(item);
+        //        return Ok(item);
 
-            }
-            else
-            {
-                item.ArchiveId = archive.Id;
-                ArchiveItem? existingItem = _archiveItemRepo.ArchiveItemExists(item.BillId, item.ArchiveId);
-                if (existingItem == null)
-                {
-                    _archiveItemRepo.AddArchiveItem(item);
-                    return Ok(item);
-                }
-                else
-                {
-                    return Ok(existingItem);
-                }
+        //    }
+        //    else
+        //    {
+        //        item.ArchiveId = archive.Id;
+        //        ArchiveItem? existingItem = _archiveItemRepo.ArchiveItemExists(item.BillId, item.ArchiveId);
+        //        if (existingItem == null)
+        //        {
+        //            _archiveItemRepo.AddArchiveItem(item);
+        //            return Ok(item);
+        //        }
+        //        else
+        //        {
+        //            return Ok(existingItem);
+        //        }
 
-            }
-        }
+        //    }
+        //}
+
 
         //// GET: api/<ArchiveController>/Review
 
@@ -61,8 +63,8 @@ namespace MedicalBillTracker.Controllers
         //[HttpGet("Review")]
         //public IActionResult GetReview()
         //{
-        //    var uid = User.FindFirst(Claim => Claim.Type == "user_id").Value.ToString();
-        //    var archive = _archiveRepo.GetOpenArchiveByUID(uid);
+        //    //var uid = User.FindFirst( "user_id").Value.ToString();
+        //    var archive = _archiveRepo.GetOpenArchiveByFirebaseKeyId(patientId);
         //    if (archive != null)
         //    {
         //        var archiveId = archive.Id;
@@ -76,10 +78,10 @@ namespace MedicalBillTracker.Controllers
         //    }
         //    else
         //    {
-        //        int newArchiveId = _archiveRepo.AddNewArchive(uid);
+        //        int newArchiveId = _archiveRepo.AddNewArchive(patientId);
         //        Review reivew = new Review()
         //        {
-        //            ReviewItems = new List<BillArchiveItem>(),
+        //            ReviewItems = new List<Bill>(),
         //            ReviewId = newArchiveId
         //        };
 
@@ -87,18 +89,22 @@ namespace MedicalBillTracker.Controllers
         //    }
         //}
 
-        // GET: ArchiveController/Patient/UID
-        [Authorize]
-        [HttpGet("Patient")]
-        public IActionResult GetArchiveByUID()
-        {
-            var uid = User.FindFirst(Claim => Claim.Type == "user_id").Value.ToString();
-            List<Archive>? patientArchives = _archiveRepo.GetAllArchivesByUID(uid);
-            if (patientArchives == null) return NotFound();
-            return Ok(patientArchives);
-        }
 
-        [Authorize]
+
+        // GET: ArchiveController/Patient/UID
+        //[Authorize]
+        //[HttpGet("Patient")]
+        //public IActionResult GetArchiveByFirebaseKeyId()
+        //{
+        //    var uid = User.FindFirst(Claim => Claim.Type == "user_id").Value.ToString();
+        //    List<Archive>? patientArchives = _archiveRepo.GetAllArchivesByFirebaseKeyId(uid);
+        //    if (patientArchives == null) return NotFound();
+        //    return Ok(patientArchives);
+        //}
+
+
+
+       // [Authorize]
         // GET api/<ArchiveController>/5
         [HttpGet("Close/{id}")]
         public IActionResult CloseArchive(int id)
@@ -113,6 +119,9 @@ namespace MedicalBillTracker.Controllers
                 return BadRequest();
             }
         }
+
+
+
         // DELETE api/<OrderController>/5
         //[Authorize]
         [HttpDelete("DeleteReviewItem/{id}")]

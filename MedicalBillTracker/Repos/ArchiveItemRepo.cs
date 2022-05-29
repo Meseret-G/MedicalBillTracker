@@ -1,5 +1,4 @@
-﻿using medicalbilltracker.models;
-using MedicalBillTracker.Models;
+﻿using MedicalBillTracker.Models;
 using System.Data.SqlClient;
 
 namespace MedicalBillTracker.Repos
@@ -21,7 +20,7 @@ namespace MedicalBillTracker.Repos
             }
         }
         // Get all bills by ArchiveID
-        public List<BillArchiveItem>? GetAllItemsByArchiveId(int archiveId)
+        public List<Bill> GetAllItemsByArchiveId(int archiveId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -30,7 +29,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT a.Id,b.Title, b.Provider, b.ImageURL, b.OutOfPocket, b.IsOpen , a.archiveId, a.BillReceived, 
+                        SELECT a.Id,b.Title, b.Provider, b.ImageURL, b.OutOfPocket, b.IsOpen , a.archiveId,
                         FROM ArchiveItem as a
                         LEFT JOIN Bill as b
                         on b.Id = a.BillId
@@ -40,10 +39,10 @@ namespace MedicalBillTracker.Repos
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        List<BillArchiveItem> list = new List<BillArchiveItem>();
+                        List<Bill> list = new List<Bill>();
                         while (reader.Read())
                         {
-                            BillArchiveItem item = new BillArchiveItem
+                            Bill item = new Bill
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
@@ -51,8 +50,7 @@ namespace MedicalBillTracker.Repos
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutOfPocket")),
                                 IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
-                                BillReceived = reader.GetInt32(reader.GetOrdinal("BillReceived")),
-
+                       
                             };
 
                             list.Add(item);
@@ -72,15 +70,13 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO ArchiveItem (BillId, ArchiveId, BillReceived)
-                        VALUES (@billId, @archiveId, @quantity);
+                        INSERT INTO ArchiveItem (BillId, ArchiveId)
+                        VALUES (@billId, @archiveId);
                     ";
 
                     cmd.Parameters.AddWithValue("@billId", item.BillId);
                     cmd.Parameters.AddWithValue("@archiveId", item.ArchiveId);
-                    //cmd.Parameters.AddWithValue("@billreceived", item.BillReceived);
-
-
+                  
                     int id = (int)cmd.ExecuteNonQuery();
 
                     item.Id = id;
@@ -88,7 +84,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public ArchiveItem? ArchiveItemExists(int billId, int archiveId)
+        public ArchiveItem ArchiveItemExists(int billId, int archiveId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -97,7 +93,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, BillId, ArchiveId, BillReceived
+                        SELECT Id, BillId, ArchiveId
                         FROM ArchiveItem
                         WHERE BillId = @billId AND ArchiveId = @archiveId";
 
@@ -113,7 +109,7 @@ namespace MedicalBillTracker.Repos
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 ArchiveId = reader.GetInt32(reader.GetOrdinal("ArchiveId")),
                                 BillId = reader.GetInt32(reader.GetOrdinal("BillId")),
-                                //BillReceived = reader.GetInt32(reader.GetOrdinal("BillReceived"))
+                            
                             };
                             return item;
                         }

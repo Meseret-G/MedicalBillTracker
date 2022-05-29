@@ -27,13 +27,13 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        INSERT INTO Patient ([Name], Email, [UID])
+                                        INSERT INTO Patient ([Name], Email, [FirebaseKeyId])
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @email, @uid)
+                                        VALUES (@name, @email, @firebaseKeyId)
                                         ";
                     cmd.Parameters.AddWithValue("@name", patient.Name);
                     cmd.Parameters.AddWithValue("@email", patient.Email);
-                    cmd.Parameters.AddWithValue("@uid", patient.UID);
+                    cmd.Parameters.AddWithValue("@firebaseKeyId", patient.FirebaseKeyId);
 
                     int id = (int)cmd.ExecuteScalar();
 
@@ -64,7 +64,7 @@ namespace MedicalBillTracker.Repos
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            UID = reader.GetString(reader.GetOrdinal("UID")),
+                            FirebaseKeyId = reader.GetString(reader.GetOrdinal("FirebaseKeyId")),
                         };
                         return patient;
                     }
@@ -77,7 +77,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public Patient GetPatientByUID(string uid)
+        public Patient GetPatientByFirebaseKeyId(string firebaseKeyId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -86,9 +86,9 @@ namespace MedicalBillTracker.Repos
                 {
                     cmd.CommandText = @"
                                         SELECT * FROM Patient
-                                        WHERE UID = @uid 
+                                        WHERE FirebaseKeyId = @firebaseKeyId
                                         ";
-                    cmd.Parameters.AddWithValue("@uid", uid);
+                    cmd.Parameters.AddWithValue("@firebaseKeyId", firebaseKeyId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -99,7 +99,7 @@ namespace MedicalBillTracker.Repos
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            UID = reader.GetString(reader.GetOrdinal("UID")),
+                            FirebaseKeyId = reader.GetString(reader.GetOrdinal("FirebaseKeyId")),
                         };
                         return patient;
                     }
@@ -112,7 +112,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public bool PatientExists(string uid)
+        public bool PatientExists(string firebaseKeyId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -121,9 +121,9 @@ namespace MedicalBillTracker.Repos
                 {
                     cmd.CommandText = @"
                                         SELECT * FROM Patient
-                                        WHERE UID = @uid 
+                                        WHERE FirebaseKeyId = @firebaseKeyId
                                         ";
-                    cmd.Parameters.AddWithValue("@uid", uid);
+                    cmd.Parameters.AddWithValue("@firebaseKeyId", firebaseKeyId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
