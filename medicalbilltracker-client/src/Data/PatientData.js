@@ -9,9 +9,9 @@ const baseURL = 'https://localhost:7033/api';
  
  
   const patientExistsInDB = async () => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('idToken');
     await axios.get(`${baseURL}/Patient/Auth`, {
-      headers: { Authorization: 'Bearer ' + token },
+      headers: { Authorization: 'Bearer ' + token, idToken: token },
     });
   };
   

@@ -96,7 +96,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Bill (Title, [Provider],ImageURL,OutOfPocket, IsOpen)
+                        INSERT INTO [dbo].[Bill] (Title, [Provider],ImageURL,OutOfPocket, IsOpen)
                         OUTPUT INSERTED.ID
                         VALUES (@title, @provider,@imageURL,@outOfPocket, @isOpen);
                     ";

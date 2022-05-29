@@ -36,7 +36,7 @@ namespace MedicalBillTracker.Controllers
 
         // POST api/<BillController>
         [HttpPost]
-        public IActionResult PostBill([FromBody] Bill newBill)
+        public IActionResult PostBill( Bill newBill)
         {
             if (newBill == null)
             {

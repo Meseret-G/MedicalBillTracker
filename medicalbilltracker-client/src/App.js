@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import './App.css'
+import './styles/index.scss';
 import Navbar from './components/Navbar';
+import AppRoutes from './routes';
 // import auth from './Data/auth/apiKey';
 // import { useNavigate } from 'react-router-dom';
 // import { patientExistsInDB } from './Data/PatientData';
@@ -35,8 +36,10 @@ function App() {
 
   return (
     <div className="App" >
-      <Navbar />
-    </div>
+      <Navbar />  
+        <AppRoutes  />
+      </div>
+  
   );
 }
 
