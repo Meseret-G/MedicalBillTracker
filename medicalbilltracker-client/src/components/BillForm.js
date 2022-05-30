@@ -1,6 +1,6 @@
 import React , {useState, useEffect }from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { createBill, getBillById } from '../Data/BillData';
+import { createBill, getBillById, updateBill } from '../Data/BillData';
 
 
 const initialState = {
@@ -43,13 +43,19 @@ export default function BillForm() {
     }));
   };
 
-  const resetForm = () => {
+  const resetForm = () => {   
     setFormInput({ ...initialState });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();  
-      createBill({formInput }).then(() => {
+    if (dbKey) {
+      updateBill(dbKey, formInput).then(() => {
+        resetForm()
+        navigate('/');
+      });
+    }
+      createBill({...formInput }).then(() => {
         resetForm();
         navigate('/');
       });    
@@ -91,7 +97,7 @@ export default function BillForm() {
             value={formInput.imageURL || ''}
             onChange={handleChange}
             placeholder='Image'
-            required
+            
           />
         </div>
         <div>
