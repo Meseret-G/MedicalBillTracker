@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import BillForm from '../components/BillForm';
+import { BillForm, BillDetails } from '../components/index';
 import Bill from '../views/Bill';
 
 
@@ -10,6 +10,10 @@ export default function AppRoutes() {
       <Routes>
         <Route path='/' element={<Bill />} />
         <Route path='/BillForm' element={<BillForm />} />
+        <Route
+          path='/BillDetail/:dbKey'
+          element={<BillDetails  />}
+        />
       </Routes>
     </>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SearchBill() {
+export default function SearchBill() {
     return (
         <div>
             Search bill by title or provider
@@ -8,4 +8,3 @@ function SearchBill() {
     );
 }
 
-export default SearchBill;

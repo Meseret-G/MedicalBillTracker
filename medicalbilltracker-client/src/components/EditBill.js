@@ -1,6 +1,6 @@
 import React from 'react';
 
-function EditBill() {
+export default function EditBill() {
     return (
         <div>
             Edit Bills
@@ -8,4 +8,3 @@ function EditBill() {
     );
 }
 
-export default EditBill;
