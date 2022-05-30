@@ -89,3 +89,9 @@ select * FROM ArchiveItem
 EXEC sp_RENAME 'Patient.FirebaseKeyId' , 'UID', 'COLUMN'
 
 select  * FROM Patient
+
+ALTER TABLE Bill
+DROP COLUMN ServiceDate
+
+ALTER TABLE Bill
+ALTER COLUMN ImageURL TEXT NOT NULL
