@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 import {useNavigate} from 'react-router-dom';
 import BillCard from '../components/BillCard';
-import { getAllBills } from '../Data/BillData';
+import { getAllBills, deleteBill } from '../Data/BillData';
 
 export default function Bill() {
     const navigate = useNavigate();
@@ -17,6 +17,11 @@ export default function Bill() {
         isMounted = false;
       };
     }, []);
+
+    const handleDelete = async (billId) => {
+      await deleteBill(billId);
+      getAllBills().then((billArray) => setBills(billArray));
+    };
   
     return (
       
@@ -37,18 +42,14 @@ export default function Bill() {
         {bills.map((bill) => (
          
          <BillCard
-
         key={bill.id}
         bill={bill}
-         
+        handleDelete={handleDelete}      
        />
-        ))}
-         
+        ))}        
         </>
       </div>
-      </div>
-     
-      
+      </div>   
     );
 }
 
