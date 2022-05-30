@@ -37,4 +37,12 @@ const getAllBills = async () => {
     return billData;
   };
 
- export { createBill, getBillById, getAllBills };
+  const deleteBill = (billId) =>
+  new Promise((resolve, reject) => {
+    axios
+      .delete(`${baseURL}/Bill/Delete/${billId}`)
+      .then(() => getAllBills().then(resolve))
+      .catch(reject);
+  });
+
+ export { createBill, getBillById, getAllBills, deleteBill };
