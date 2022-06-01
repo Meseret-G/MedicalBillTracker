@@ -29,7 +29,7 @@ namespace MedicalBillTracker.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var bill = _billRepo.GetById(id);
+            var bill = _billRepo.GetBillById(id);
             if (bill == null) return NotFound();
             return Ok(bill);
         }

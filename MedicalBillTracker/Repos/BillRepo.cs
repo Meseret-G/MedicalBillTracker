@@ -27,7 +27,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Title, [Provider],ImageURL,OutOfPocket, IsOpen
+                        SELECT Id, Title, [Provider],BillDate,ImageURL,OutOfPocket, IsOpen, PatientId
                         FROM Bill";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -39,10 +39,11 @@ namespace MedicalBillTracker.Repos
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Provider = reader.GetString(reader.GetOrdinal("Provider")),
-                                //ServiceDate = reader.GetDateTime(reader.GetOrdinal("ServiceDate")),
+                                BillDate = reader.GetDateTime(reader.GetOrdinal("BillDate")),
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutofPocket")),
-                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen"))                        
+                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
+                                PatientId = reader.GetInt32(reader.GetOrdinal("Id")),
                             };
                             bills.Add(bill);
                         }
@@ -52,7 +53,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public Bill? GetById(int id)
+        public Bill? GetBillById(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -60,7 +61,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id,Title, [Provider],ImageURL,OutOfPocket, IsOpen
+                        SELECT Id,Title, [Provider],BillDate, ImageURL,OutOfPocket, IsOpen, PatientId
                         FROM Bill
                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
@@ -74,14 +75,16 @@ namespace MedicalBillTracker.Repos
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Provider = reader.GetString(reader.GetOrdinal("Provider")),
-                                //ServiceDate = reader.GetDateTime(reader.GetOrdinal("ServiceDate")),
+                                BillDate = reader.GetDateTime(reader.GetOrdinal("BillDate")),
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutofPocket")),
-                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen"))
+                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
+                                PatientId = reader.GetInt32(reader.GetOrdinal("PatientId")),
                             };
                             return bill;
                         }
-                        else return null;
+                        else return null;   
+                        
                     }
                 }
             }
@@ -96,17 +99,19 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [dbo].[Bill] (Title, [Provider],ImageURL,OutOfPocket, IsOpen)
+                        INSERT INTO [dbo].[Bill] (Title, [Provider],BillDate,ImageURL,OutOfPocket, IsOpen, PatientId)
                         OUTPUT INSERTED.ID
-                        VALUES (@title, @provider,@imageURL,@outOfPocket, @isOpen);
+                        VALUES (@title, @provider,@billDate,@imageURL,@outOfPocket, @isOpen, @patientId);
                     ";
                  
                     cmd.Parameters.AddWithValue("@title", bill.Title);
                     cmd.Parameters.AddWithValue("@provider", bill.Provider);
+                    cmd.Parameters.AddWithValue("@billDate", bill.BillDate);
                     cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
                     cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
                     cmd.Parameters.AddWithValue("@isOpen", bill.IsOpen);
-                  
+                    cmd.Parameters.AddWithValue("@PatientId", bill.PatientId);
+
                     int id = (int)cmd.ExecuteScalar();
 
                     bill.Id = id;
@@ -123,17 +128,21 @@ namespace MedicalBillTracker.Repos
                     cmd.CommandText = @"UPDATE Bill
                                         SET Title = @title,
 	                                        Provider = @provider,
+                                            BillDate = @billDate,
 	                                        ImageURL = @imageURL,
 	                                        OutOfPocket = @outOfPocket,
-	                                        IsOpen = @isOpen
+	                                        IsOpen = @isOpen,
+                                            PatientId = @patientId
 		                                        WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@title", bill.Title);
                     cmd.Parameters.AddWithValue("@provider", bill.Provider);
+                    cmd.Parameters.AddWithValue("@BillDate", bill.BillDate);
                     cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
                     cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
                     cmd.Parameters.AddWithValue("@isOpen", bill.IsOpen);
+                    cmd.Parameters.AddWithValue("@patientId", bill.PatientId);
                     cmd.ExecuteNonQuery();
                 }
             }
