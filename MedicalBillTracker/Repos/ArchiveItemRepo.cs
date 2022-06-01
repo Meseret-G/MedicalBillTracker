@@ -19,49 +19,107 @@ namespace MedicalBillTracker.Repos
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        // Get all bills by ArchiveID
-        public List<Bill> GetAllItemsByArchiveId(int archiveId)
+        // Get all Archived Bills by patientId
+
+        public List<Bill> GetAllPatientArchives(int patientId)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
-
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT a.Id,b.Title, b.Provider, b.ImageURL, b.OutOfPocket, b.IsOpen , a.archiveId,
-                        FROM ArchiveItem as a
+                        SELECT ai.patientId as ArchivePatientId,
+                        b.Id as Id,
+                        b.Title,
+                        b.Provider,
+                        b.Date
+                        b.ImageURL,
+                        b.OutOfPocket,
+                        b.IsOpen
+                        FROM ArchiveItem as ai
                         LEFT JOIN Bill as b
-                        on b.Id = a.BillId
-                        WHERE a.ArchiveId = @archiveId";
+                        ON ai.PatientId = b.PatientId
+                     ";
 
-                    cmd.Parameters.AddWithValue("@archiveId", archiveId);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Bill> bills = new List<Bill>();
+                    while (reader.Read())
                     {
-                        List<Bill> list = new List<Bill>();
-                        while (reader.Read())
+                        if (reader["PatientId"] != DBNull.Value)
                         {
-                            Bill item = new Bill
+                            Bill bill = new Bill
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Provider = reader.GetString(reader.GetOrdinal("Provider")),
+                                BillDate = reader.GetDateTime(reader.GetOrdinal("BillDate")),
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutOfPocket")),
                                 IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
-                       
+
                             };
-
-                            list.Add(item);
+                            bills.Add(bill);
                         }
-                        return list;
                     }
+                    reader.Close();
+                    return bills;
+                }
+            }
+        }
+        //public List<ArchiveItem> GetAllArchives()
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"
+        //                              SELECT 
+        //                              id, patientId, billId
+        //                              FROM ArchiveItem
+        //                              ";
+        //            SqlDataReader reader = cmd.ExecuteReader();
+        //            List<ArchiveItem> archiveItems = new List<ArchiveItem>();
+        //            while (reader.Read())
+        //            {
+        //                ArchiveItem archive = new ArchiveItem()
+        //                {
+        //                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+        //                    PatientId = reader.GetInt32(reader.GetOrdinal("patientId")),
+        //                    BillId = reader.GetInt32(reader.GetOrdinal("billId")),
+
+        //                };
+
+        //                archiveItems.Add(archive);
+        //            }
+        //            reader.Close();
+
+        //            return archiveItems;
+        //        }
+        //    }
+        //}
+
+        public void AddToArchive(int billId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO ArchiveItem (BillId)
+                        VALUES (@billId, @patientId);
+                     ";
+
+                    cmd.Parameters.AddWithValue("@billid", billId);
+               
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public void AddArchiveItem(ArchiveItem item)
+        public void RemoveFromArchive(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -70,71 +128,44 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO ArchiveItem (BillId, ArchiveId)
-                        VALUES (@billId, @archiveId);
-                    ";
+                                DELETE
+                                FROM ArchiveItem
+                                WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@billId", item.BillId);
-                    cmd.Parameters.AddWithValue("@archiveId", item.ArchiveId);
-                  
-                    int id = (int)cmd.ExecuteNonQuery();
-
-                    item.Id = id;
-                }
-            }
-        }
-
-        public ArchiveItem ArchiveItemExists(int billId, int archiveId)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        SELECT Id, BillId, ArchiveId
-                        FROM ArchiveItem
-                        WHERE BillId = @billId AND ArchiveId = @archiveId";
-
-                    cmd.Parameters.AddWithValue("@billId", billId);
-                    cmd.Parameters.AddWithValue("@archiveId", archiveId);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            ArchiveItem item = new ArchiveItem()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                ArchiveId = reader.GetInt32(reader.GetOrdinal("ArchiveId")),
-                                BillId = reader.GetInt32(reader.GetOrdinal("BillId")),
-                            
-                            };
-                            return item;
-                        }
-                        else return null;
-                    }
-                }
-            }
-        }
-
-        public void DeleteArchiveItem(int archiveItemId)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        DELETE
-                        FROM ArchiveItem
-                        WHERE Id = @id";
-
-                    cmd.Parameters.AddWithValue("@id", archiveItemId);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool BillExistInArchive(int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT * FROM ArchiveItem
+                        WHERE Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", Id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    bool found = false;
+                    while (reader.Read())
+                    {
+                        var archiveItemId = reader.GetInt32(reader.GetOrdinal("Id"));
+                        if (archiveItemId == Id)
+                        {
+                            found = true;
+                        }
+                    }
+                    reader.Close();
+                    return found;
                 }
             }
         }

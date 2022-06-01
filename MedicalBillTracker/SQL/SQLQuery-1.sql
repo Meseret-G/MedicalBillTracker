@@ -1,4 +1,6 @@
-﻿USE MASTER
+﻿drop database MedicalBillTracker
+
+USE MASTER
 GO
 
 IF NOT EXISTS (
@@ -22,7 +24,7 @@ CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL,
-    [UID] VARCHAR(55) NOT NULL UNIQUE,
+    [FirebaseKeyId] VARCHAR(55) NOT NULL UNIQUE,
     CONSTRAINT UQ_Email UNIQUE(Email)
 );
 
@@ -30,46 +32,35 @@ CREATE TABLE Bill (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	Title VARCHAR(55) NOT NULL,
     [Provider] VARCHAR(55) NOT NULL,
-    ServiceDate date NOT NULL,
     ImageURL TEXT,
     OutOfPocket DECIMAL(9,2) NOT NULL,
     IsOpen BIT NOT NULL,
---PatientId VARCHAR(55) NOT NULL,
-   -- CONSTRAINT FK_Patient FOREIGN KEY (PatientId) REFERENCES [Patient]([UID]) ON DELETE CASCADE
+    BillDate DATETIME NOT NULL,
+    PatientId INTEGER NOT NULL,
+   CONSTRAINT [FK_Bill-Patient] FOREIGN KEY (PatientId) REFERENCES [Patient]([Id]) 
 );
-
-
 
 CREATE TABLE Archive  (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
-	PatientId VARCHAR(55) NOT NULL,
-    IsOpen BIT NOT NULL,
-    CONSTRAINT FK_Patient FOREIGN KEY (PatientId) REFERENCES [Patient]([UID]) ON DELETE CASCADE
+ 
 );
 
 CREATE TABLE ArchiveItem (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	BillId INTEGER NOT NULL,
     ArchiveId INTEGER NOT NULL,
-    CONSTRAINT FK_Bill FOREIGN KEY (BillId) REFERENCES [Bill](Id) ON DELETE CASCADE,
-    CONSTRAINT FK_Archive FOREIGN KEY (ArchiveId) REFERENCES [Archive](Id) ON DELETE CASCADE
+    CONSTRAINT FK_ArchiveItem_Bill FOREIGN KEY (BillId) REFERENCES [Bill](Id),
+    CONSTRAINT FK_ArchiveItem_Archive FOREIGN KEY (ArchiveId) REFERENCES [Archive](Id) 
 )
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('Emergency Room', 'Hospital', '2022-05-05','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 0);
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('Annual Physical Visit', 'PCP', '2021-03-04', 'https://images.ctfassets.net/uq0sg0aynn6a/twdFWYwQqy46O0asgIOgg/2a3248c7077b817437009f42b9ab8329/Primary_Care_Physicians.jpg', 0.00, 0);
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('Therapy', 'Nashville Therapy Center', '2021-05-02', 'https://i.imgur.com/jKFsoJs.jpg', 300.00, 0);
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('Accupunture', 'Hendersonville Traditional Medicine Center', '2022-08-10','https://post.healthline.com/wp-content/uploads/2020/05/Acupuncture_732x549-thumbnail.jpg', 478.00, 0);
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('MRI', 'St Thomas Hospital','2022-06-01', 'https://i.imgur.com/1puf1fV.jpg', 230.00, 0);
-INSERT INTO Bill ([Title], [Provider],ServiceDate,ImageURL, OutOfPocket, IsOpen) VALUES ('Urgent Care', 'Urgent Now', '2021-12-12', 'https://wp02-media.cdn.ihealthspot.com/wp-content/uploads/sites/522/2021/05/27024509/iStock-917307626-1.jpg', 487.00, 0);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, IsOpen, BillDate, PatientId) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 0, '2022-05-05', 1);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, IsOpen, BillDate, PatientId) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00, 0, '2022-10-10', 1);
 
-INSERT INTO Patient ([Name], Email, [UID]) VALUES ('Jane', 'jame@gmail.com', 1234);
-INSERT INTO Patient ([Name], Email, [UID]) VALUES ('Mercy', 'mercy@gmail.com', 3456);
-INSERT INTO Patient ([Name], Email, [UID]) VALUES ('Unlucky', 'unlucky@gmail.com', 2345);
-INSERT INTO Patient ([Name], Email, [UID]) VALUES ('GG', 'gg@gmail.com', 2875);
+INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Jane', 'jame@gmail.com', 1234)
+INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Mercy', 'mercy@gmail.com', 3456);
+INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Unlucky', 'unlucky@gmail.com', 2345);
+INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('GG', 'gg@gmail.com', 2875);
 
-INSERT INTO Archive (PatientId, IsOpen) VALUES (1234, 0);
-INSERT INTO Archive (PatientId, IsOpen) VALUES (3456, 0);
-INSERT INTO Archive (PatientId, IsOpen) VALUES (2345, 0);
-INSERT INTO Archive (PatientId, IsOpen) VALUES (2875, 0);
+
 
 
 select * FROM
@@ -85,13 +76,69 @@ DROP COLUMN BillReceived
 
 select * FROM ArchiveItem
 
+EXEC sp_RENAME 'Bill.[Date]' , 'Date', 'COLUMN'
+
 
 EXEC sp_RENAME 'Patient.FirebaseKeyId' , 'UID', 'COLUMN'
 
-select  * FROM Patient
+
 
 ALTER TABLE Bill
-DROP COLUMN ServiceDate
+DROP COLUMN [Date]
+
 
 ALTER TABLE Bill
-ALTER COLUMN ImageURL TEXT NOT NULL
+ADD ServiceDate DATETIME NULL;
+
+SELECT * FROM Bill;
+
+
+ALTER TABLE Bill
+ALTER COLUMN [DATE] DATETIME NOT NULL;
+
+
+EXEC sp_RENAME 'Bill.[Date]' , 'Date', 'COLUMN'
+
+
+INSERT INTO Bill ([Title], [Provider],[Date],ImageURL, OutOfPocket, IsOpen) VALUES ('Emergency Room', 'Hospital', '2022-05-05','https://www.mauryregional.com/media/Image/banner-emergency.jpg','20', 0);
+
+SELECT COLUMN_NAME,
+DATA_TYPE
+FROM Title
+where TABLE_NAME = 'Bill'
+
+DROP TABLE Bill;
+
+SELECT * FROM Bill;
+
+SELECT * FROM Archive;
+
+EXEC sp_columns 'Bill';
+
+ALTER TABLE Archive
+DROP CONSTRAINT CHK_PatientId
+
+DROP TABLE Patient;
+
+ALTER TABLE dbo.Archive
+DROP column FK_PatientId;
+
+-- Add patientID as FK
+
+ALTER TABLE ArchiveItem
+ADD PatientId Int;
+
+ALTER TABLE ArchiveItem
+ADD FOREIGN KEY (PatientId) REFERENCES Patient(Id);
+
+select * FROM ArchiveItem;
+--
+
+ALTER TABLE ArchiveItem
+DROP CONSTRAINT FK_ArchiveId
+
+
+select * from Bill
+
+alter table dbo.Bill
+alter column [[[Date]]] datetime NOT NULL

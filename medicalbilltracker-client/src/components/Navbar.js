@@ -13,6 +13,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import logo from '../assets/logo.png';
+import { signOutPatient } from '../Data/PatientData';
 
 export default function NavigationBar() {
   
@@ -53,7 +54,7 @@ export default function NavigationBar() {
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem>
-                      <NavLink >Sign Out</NavLink>
+                      <NavLink className="sign-out-user" onClick={signOutPatient}>Sign Out</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>

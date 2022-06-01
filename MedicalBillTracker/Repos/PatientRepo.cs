@@ -19,7 +19,7 @@ namespace MedicalBillTracker.Repos
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        public int CreatePatient(Patient patient)
+        public void CreatePatient(Patient patient)
         {
             using (SqlConnection conn = Connection)
             {
@@ -27,17 +27,17 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        INSERT INTO Patient ([Name], Email, [FirebaseKeyId])
+                                        INSERT INTO Patient ([Name], Email)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @email, @firebaseKeyId)
+                                        VALUES (@name,  @email)
                                         ";
                     cmd.Parameters.AddWithValue("@name", patient.Name);
                     cmd.Parameters.AddWithValue("@email", patient.Email);
-                    cmd.Parameters.AddWithValue("@firebaseKeyId", patient.FirebaseKeyId);
+                    //cmd.Parameters.AddWithValue("@firebaseKeyId", patient.FirebaseKeyId);
 
                     int id = (int)cmd.ExecuteScalar();
-
-                    return id;
+                    patient.Id = id;
+                 
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public bool PatientExists(string firebaseKeyId)
+        public bool CheckPatientExists(string firebaseKeyId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -120,7 +120,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT * FROM Patient
+                                        SELECT Id, [Name], Email, FirebaseKeyID FROM Patient
                                         WHERE FirebaseKeyId = @firebaseKeyId
                                         ";
                     cmd.Parameters.AddWithValue("@firebaseKeyId", firebaseKeyId);
