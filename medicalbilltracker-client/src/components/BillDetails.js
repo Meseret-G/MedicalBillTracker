@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { getBillById, deleteBill } from '../Data/BillData';
+import { getBillById, deleteBill } from '../Data/BilllData';
 import { useNavigate } from "react-router-dom";
 import {
   Card,

@@ -27,7 +27,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        INSERT INTO Patient ([Name], Email)
+                                        INSERT INTO Patient ([Name], Email, [FirebaseKeyId])
                                         OUTPUT INSERTED.Id
                                         VALUES (@name,  @email)
                                         ";

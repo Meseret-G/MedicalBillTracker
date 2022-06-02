@@ -90,7 +90,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public void AddBill(Bill bill)
+        public void AddBill(Bill _bill)
         {
             using (SqlConnection conn = Connection)
             {
@@ -99,25 +99,25 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [dbo].[Bill] (Title, [Provider],BillDate,ImageURL,OutOfPocket, IsOpen, PatientId)
+                        INSERT INTO Bill (Title, [Provider],BillDate,ImageURL,OutOfPocket, IsOpen, PatientId)
                         OUTPUT INSERTED.ID
                         VALUES (@title, @provider,@billDate,@imageURL,@outOfPocket, @isOpen, @patientId);
                     ";
                  
-                    cmd.Parameters.AddWithValue("@title", bill.Title);
-                    cmd.Parameters.AddWithValue("@provider", bill.Provider);
-                    cmd.Parameters.AddWithValue("@billDate", bill.BillDate);
-                    cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
-                    cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
-                    cmd.Parameters.AddWithValue("@isOpen", bill.IsOpen);
-                    cmd.Parameters.AddWithValue("@PatientId", bill.PatientId);
+                    cmd.Parameters.AddWithValue("@title", _bill.Title);
+                    cmd.Parameters.AddWithValue("@provider", _bill.Provider);
+                    cmd.Parameters.AddWithValue("@billDate", _bill.BillDate);
+                    cmd.Parameters.AddWithValue("@imageURL", _bill.ImageURL);
+                    cmd.Parameters.AddWithValue("@outOfPocket",_bill.OutOfPocket);
+                    cmd.Parameters.AddWithValue("@isOpen",_bill.IsOpen);
+                    cmd.Parameters.AddWithValue("@PatientId", _bill.PatientId);
 
-                    int id = (int)cmd.ExecuteScalar();
-
-                    bill.Id = id;
+                    cmd.ExecuteNonQuery();
+                    
                 }
             }
-        }
+        }  
+
         public void UpdateBill(int id, Bill bill)
         {
             using (SqlConnection conn = Connection)

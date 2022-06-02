@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles/index.scss';
 import Navbar from './components/Navbar';
 import AppRoutes from './routes';
@@ -7,6 +7,7 @@ import auth from './Data/auth/apiKey';
 import { useNavigate } from 'react-router-dom';
 import { patientExistsInDB } from './Data/PatientData';
 import SignIn from './views/SignIn';
+
 
 function App() {
   const [ patient, setPatient] = useState(null);
@@ -40,7 +41,7 @@ function App() {
     <div className="App" >
       <Navbar />  
         <AppRoutes  />
-        <SignIn patient={patient} />
+       <SignIn patient={patient} /> 
       </div>
   
   );

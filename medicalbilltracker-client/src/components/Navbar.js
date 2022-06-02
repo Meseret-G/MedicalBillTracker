@@ -1,67 +1,42 @@
 import React from 'react';
-
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import logo from '../assets/logo.png';
-import { signOutPatient } from '../Data/PatientData';
-
-export default function NavigationBar() {
   
+ 
+  NavLink,
+ 
+} from 'reactstrap';
+import { signInPatient, signOutPatient } from '../Data/PatientData';
+import logo from '../assets/logo.png';
+
+
+export default function AppNavbar({ patient }) {
+
   return (
-    <div className='navbar-container'>
-      <Navbar light expand='md' className='navbar'>
-        {/* <NavbarBrand href='/'>
-          <img className='nav-logo' src={logo} alt='logo' />
-        </NavbarBrand> */}
-        <NavbarToggler  />
-        <Collapse navbar>
-          <Nav className='container-fluid' navbar>
-            <NavItem>
-              <NavLink href='/'>
-                <span className='nav-span'>Bill</span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href='/Patient'>
-                <span className='nav-span'>Patient</span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href='/Createbill'>
-                <span className='nav-span'>Create Bill</span> 
-              </NavLink>
-            </NavItem>
-              <>
-                <UncontrolledDropdown nav inNavbar className='user-drop'>
-                  <DropdownToggle nav caret>
-                    <img
-                      className='user-img'
-                      referrerPolicy='no-referrer'
-                      alt='user'
-                      src={logo}
-                    />
-                    <span className='nav-span-user'>User</span>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem>
-                      <NavLink className="sign-out-user" onClick={signOutPatient}>Sign Out</NavLink>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </>
-          </Nav>
-        </Collapse>
-      </Navbar>
-    </div>
-  );
+    <div className="nav">
+   
+      <NavLink href="/">
+      <img className='nav-logo' src={logo} alt='logo' />
+      </NavLink>
+     
+      <NavLink href="/">
+         <span className='nav-span'>Home</span>
+         
+         </NavLink>
+
+
+      <NavLink href="/Archive">  
+      <span className='nav-span'>Archive</span>
+         </NavLink>
+
+    {patient ? (
+      <button onClick={signOutPatient} className="login-btn" type="button">
+        Sign Out
+      </button>
+    ) : (
+      <button onClick={signInPatient} className="login-btn" type="button">
+        Sign In
+      </button>
+    )}
+  </div>
+);
 }
