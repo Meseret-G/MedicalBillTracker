@@ -20,8 +20,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddTransient<IBillRepo, BillRepo>();
-builder.Services.AddTransient<IPatientRepo, PatientRepo>();
+//builder.Services.AddTransient<IPatientRepo, PatientRepo>();
 //builder.Services.AddTransient<IArchiveRepo, ArchiveRepo>();
 builder.Services.AddTransient<IArchiveItemRepo, ArchiveItemRepo>();
 var FirebaseSDKPath = builder.Configuration["fbCredPath"];

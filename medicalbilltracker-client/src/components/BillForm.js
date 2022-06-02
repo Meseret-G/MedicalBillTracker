@@ -1,6 +1,7 @@
 import React , {useState, useEffect }from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { createBill, getBillById, updateBill } from '../Data/BillData';
+import { createBill, getBillById, updateBill } from '../Data/BilllData';
+
 
 
 const initialState = {
@@ -28,6 +29,7 @@ export default function BillForm() {
           imageURL: obj?.imageURL,
           outOfPocket: obj?.outOfPocket,
           isopen: obj?.isopen,
+         
         });
       });
     } else {

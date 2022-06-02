@@ -9,7 +9,7 @@ import {
   Card,
 } from 'reactstrap';
 
-export default function BillCard({ bill, handleDelete }) {    
+export default function BillCard({ bill, handledelete }) {    
 
         const navigate = useNavigate();
      
@@ -35,7 +35,7 @@ export default function BillCard({ bill, handleDelete }) {
                     <Button
                       className='btn btn-danger'
                       type='button'
-                      onClick={() => handleDelete(bill.id)}
+                      handledelete={handledelete}
                     >
                       Delete
                     </Button>

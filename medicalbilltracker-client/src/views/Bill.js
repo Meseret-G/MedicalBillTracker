@@ -1,8 +1,10 @@
 import React, {useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 import {useNavigate} from 'react-router-dom';
-import BillCard from '../components/BillCard';
-import { getAllBills, deleteBill } from '../Data/BillData';
+
+import { deleteBill, getAllBills } from '../Data/BilllData';
+import { BillCard } from '../components';
+
 
 export default function Bill() {
     const navigate = useNavigate();
@@ -52,4 +54,3 @@ export default function Bill() {
       </div>   
     );
 }
-

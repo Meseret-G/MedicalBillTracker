@@ -14,12 +14,13 @@ GO
 USE MedicalBillTracker
 GO
 
-
 DROP TABLE IF EXISTS Bill;
 DROP TABLE IF EXISTS Patient;
 DROP TABLE IF EXISTS Archive;
-DROP TABLE IF EXISTS ArchiveItem
+DROP TABLE IF EXISTS ArchiveItem;
 
+
+SELECT * FROM Invoice
 CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
@@ -63,6 +64,7 @@ INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('GG', 'gg@gmail.com
 
 
 
+
 select * FROM
 dbo.Bill;
 
@@ -90,7 +92,7 @@ DROP COLUMN [Date]
 ALTER TABLE Bill
 ADD ServiceDate DATETIME NULL;
 
-SELECT * FROM Bill;
+SELECT * FROM Invoice;
 
 
 ALTER TABLE Bill
@@ -107,7 +109,7 @@ DATA_TYPE
 FROM Title
 where TABLE_NAME = 'Bill'
 
-DROP TABLE Bill;
+
 
 SELECT * FROM Bill;
 
