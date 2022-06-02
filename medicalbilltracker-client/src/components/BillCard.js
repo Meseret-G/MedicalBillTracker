@@ -9,9 +9,10 @@ import {
   Card,
 } from 'reactstrap';
 
-export default function BillCard({ bill, handledelete }) {    
+export default function BillCard({ bill, handleDelete }) {    
 
         const navigate = useNavigate();
+        
      
         return (
           <div className='home-container'>
@@ -25,6 +26,7 @@ export default function BillCard({ bill, handledelete }) {
               />
               <CardBody>
                 <CardSubtitle className='bill-color'>{bill.provider}</CardSubtitle>
+                <CardSubtitle className='bill-color'>{bill.imageURL}</CardSubtitle>
                 <CardSubtitle className='bill-color'>{bill.outOfPocket}</CardSubtitle>
                       <Button
                         className='edit-bill'
@@ -35,9 +37,14 @@ export default function BillCard({ bill, handledelete }) {
                     <Button
                       className='btn btn-danger'
                       type='button'
-                      handledelete={handledelete}
+                      onClick={() => handleDelete(bill.id)}
                     >
                       Delete
+                    </Button>
+                    <Button
+                      className='btn btn-danger'
+                      type='button' >                 
+                     Archive 
                     </Button>
               </CardBody>
             </Card>

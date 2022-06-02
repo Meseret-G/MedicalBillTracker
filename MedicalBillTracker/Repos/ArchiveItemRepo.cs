@@ -32,11 +32,7 @@ namespace MedicalBillTracker.Repos
                         SELECT ai.patientId as ArchivePatientId,
                         b.Id as Id,
                         b.Title,
-                        b.Provider,
-                        b.Date
-                        b.ImageURL,
-                        b.OutOfPocket,
-                        b.IsOpen
+                        b.ImageURL,                 
                         FROM ArchiveItem as ai
                         LEFT JOIN Bill as b
                         ON ai.PatientId = b.PatientId
@@ -52,11 +48,10 @@ namespace MedicalBillTracker.Repos
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Provider = reader.GetString(reader.GetOrdinal("Provider")),
-                                BillDate = reader.GetDateTime(reader.GetOrdinal("BillDate")),
+                                Provider = reader.GetString(reader.GetOrdinal("Provider")),                        
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutOfPocket")),
-                                IsOpen = reader.GetBoolean(reader.GetOrdinal("IsOpen")),
+                               
 
                             };
                             bills.Add(bill);

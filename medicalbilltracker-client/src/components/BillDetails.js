@@ -38,8 +38,9 @@ export default function BillDetails() {
         <CardTitle className='bill-details-name'>{billDetail.title}</CardTitle>
         <CardBody>
           <CardSubtitle className='bill-details-provider'>{billDetail.provider}</CardSubtitle>
+          <CardSubtitle className='bill-color'>{billDetail.imageURL}</CardSubtitle>
           <CardSubtitle className='bill-details-specs'>{billDetail.outOfPocket}</CardSubtitle>
-          <CardSubtitle className='bill-details-weight'>{billDetail.isOpen? "Open" : "Closed" }</CardSubtitle>
+          
         </CardBody>              
                 <Button
                   className='edit-bill-detail'

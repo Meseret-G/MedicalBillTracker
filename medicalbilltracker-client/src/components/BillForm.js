@@ -9,7 +9,6 @@ const initialState = {
   provider: '',
   imageURL: '',
   outOfPocket : '',
-  isopen: '',
 };
 
 export default function BillForm() {
@@ -27,9 +26,7 @@ export default function BillForm() {
           title: obj?.title,
           provider: obj?.provider,
           imageURL: obj?.imageURL,
-          outOfPocket: obj?.outOfPocket,
-          isopen: obj?.isopen,
-         
+          outOfPocket: obj?.outOfPocket,      
         });
       });
     } else {
@@ -69,6 +66,9 @@ export default function BillForm() {
       <h3>Bill Form</h3>
       <form onSubmit={handleSubmit}>
         <div>
+        <label className='form-label' htmlFor="rent">
+                Bill Title:
+            </label>
           <input
             type='text'
             className='form-control'
@@ -80,6 +80,9 @@ export default function BillForm() {
           />
         </div>
         <div>
+        <label className='form-label' htmlFor="rent">
+               Provider Name:
+            </label>
           <input
             type='text'
             className='form-control'
@@ -92,6 +95,9 @@ export default function BillForm() {
         </div>
             
         <div>
+        <label className='form-label' htmlFor="rent">
+                Image:
+            </label>
           <input
             type='url'
             className='form-control'
@@ -103,6 +109,9 @@ export default function BillForm() {
           />
         </div>
         <div>
+        <label className='form-label' htmlFor="rent">
+                Out of Pocket
+            </label>
           <input
             type='number'
             className='form-control'
@@ -112,18 +121,7 @@ export default function BillForm() {
             placeholder='Out of Pocket'
             required
           />
-        </div>
-        <div>
-          <input
-            type='number'
-            className='form-control'
-            name='isopen'
-            value={formInput.isopen || ''}
-            onChange={handleChange}
-            placeholder='Payment Status'
-           
-          />
-        </div>  
+        </div> 
         <button className='addUpdate-button' type='submit'>
           {dbKey ? 'Update' : 'Submit'}
         </button>

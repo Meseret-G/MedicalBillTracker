@@ -57,6 +57,8 @@ const getAllBills = async () => {
       .then(() => getAllBills().then(resolve))
       .catch(reject);
   });
+
+  
   const updateBill = (id, billObj) =>
   new Promise((resolve, reject) => {
     axios
