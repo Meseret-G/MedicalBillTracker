@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS Archive;
 DROP TABLE IF EXISTS ArchiveItem;
 
 
-SELECT * FROM Invoice
+
 CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE Bill (
     [Provider] VARCHAR(55) NOT NULL,
     ImageURL TEXT,
     OutOfPocket DECIMAL(9,2) NOT NULL,
-    IsOpen BIT NOT NULL,
-    BillDate DATETIME NOT NULL,
-    PatientId INTEGER NOT NULL,
-   CONSTRAINT [FK_Bill-Patient] FOREIGN KEY (PatientId) REFERENCES [Patient]([Id]) 
+    --IsOpen BIT NOT NULL,
+    --BillDate DATETIME NOT NULL,
+   --PatientId INTEGER NOT NULL,
+   --CONSTRAINT [FK_Bill-Patient] FOREIGN KEY (PatientId) REFERENCES [Patient]([Id]) 
 );
 
 CREATE TABLE Archive  (
@@ -53,8 +53,8 @@ CREATE TABLE ArchiveItem (
     CONSTRAINT FK_ArchiveItem_Bill FOREIGN KEY (BillId) REFERENCES [Bill](Id),
     CONSTRAINT FK_ArchiveItem_Archive FOREIGN KEY (ArchiveId) REFERENCES [Archive](Id) 
 )
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, IsOpen, BillDate, PatientId) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 0, '2022-05-05', 1);
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, IsOpen, BillDate, PatientId) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00, 0, '2022-10-10', 1);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00);
 
 INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Jane', 'jame@gmail.com', 1234)
 INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Mercy', 'mercy@gmail.com', 3456);
@@ -86,7 +86,7 @@ EXEC sp_RENAME 'Patient.FirebaseKeyId' , 'UID', 'COLUMN'
 
 
 ALTER TABLE Bill
-DROP COLUMN [Date]
+DROP COLUMN isOpen
 
 
 ALTER TABLE Bill
@@ -136,8 +136,8 @@ ADD FOREIGN KEY (PatientId) REFERENCES Patient(Id);
 select * FROM ArchiveItem;
 --
 
-ALTER TABLE ArchiveItem
-DROP CONSTRAINT FK_ArchiveId
+ALTER TABLE Bill
+DROP CONSTRAINT FK_PatientId
 
 
 select * from Bill

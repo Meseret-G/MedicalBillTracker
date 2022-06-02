@@ -6,7 +6,7 @@ import AppRoutes from './routes';
 import auth from './Data/auth/apiKey';
 import { useNavigate } from 'react-router-dom';
 import { patientExistsInDB } from './Data/PatientData';
-import SignIn from './views/SignIn';
+//import SignIn from './views/SignIn';
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           profilePic: authed.photoURL,
           username: authed.email.split('@')[0],
         };
-        console.log(patientObj)
+        console.log(patientObj.uid)
         setPatient(patientObj);
         sessionStorage.setItem("token", authed.accessToken);
         patientExistsInDB(authed.accessToken).then(setPatient(patientObj));
@@ -38,12 +38,12 @@ function App() {
   }, []);
 
   return (
-    <div className="App" >
-      <Navbar />  
-        <AppRoutes  />
-       <SignIn patient={patient} /> 
-      </div>
-  
+     <div>
+         <Navbar />  
+        <AppRoutes />
+      
+
+  </div>  
   );
 }
 
