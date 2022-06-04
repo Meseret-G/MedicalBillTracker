@@ -1,13 +1,23 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import {
   
- 
-  NavLink,
+ NavLink, Button
  
 } from 'reactstrap';
 import { signInPatient, signOutPatient } from '../Data/PatientData';
 import logo from '../assets/logo.png';
 
+
+// const ButtonStyle = styled(Button)`
+//   border-radius: 5px;
+//   background-color: seafoam;
+//   width: 150px;
+//   height: 40px;
+//   margin-bottom: 10px;
+//   border: 2px solid black;
+//   box-shadow: 2px 2px 1px;
+// `;
 
 export default function AppNavbar({ patient }) {
 
@@ -29,13 +39,13 @@ export default function AppNavbar({ patient }) {
          </NavLink>
 
     {patient ? (
-      <button onClick={signOutPatient} className="login-btn" type="button">
+      <Button onClick={signOutPatient} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
         Sign Out
-      </button>
+      </Button>
     ) : (
-      <button onClick={signInPatient} className="login-btn" type="button">
+      <Button onClick={signInPatient} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
         Sign In
-      </button>
+      </Button>
     )}
   </div>
 );

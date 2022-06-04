@@ -1,16 +1,13 @@
-﻿//using MedicalBillTracker.Models;
+﻿using MedicalBillTracker.Models;
 
-//namespace MedicalBillTracker.Repos
-//{
-//    public interface IArchiveRepo
-//    {
+namespace MedicalBillTracker.Repos
+{
+    public interface IArchiveRepo
+    {
+        // Archive Bill
+        void ArchiveBills(int id);
 
-//        //public List<Archive> GetAllArchivesByFirebaseKeyId(int patientId);
-//        //public List<Archive> GetAllArchives();
-//        //public int AddNewArchive(int patientId);
-//        //public Archive? GetOpenArchiveByFirebaseKeyId(int patientId);
-//        //public void CloseArchive(int archiveId);
-
-     
-//    }
-//}
+        // Get archives bills
+        List<Bill> GetArchiveBills();
+    }
+}

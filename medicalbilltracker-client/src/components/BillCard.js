@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -8,14 +9,28 @@ import {
   CardImg,
   Card,
 } from 'reactstrap';
+import { archiveBill } from '../Data/BilllData';
+import PropTypes from "prop-types";
+//import styled from 'styled-components';
 
-export default function BillCard({ bill, handleDelete }) {    
+// const ButtonStyle = styled(Button)`
+//   border-radius: 5px;
+//   background-color: #F9F6EE;
+//   width: 150px;
+//   height: 40px;
+//   margin-bottom: 10px;
+//   border: 2px solid black;
+//   box-shadow: 1px 1px 1px;
+// `;
+
+export default function BillCard({ bill, handleDelete, billReviewed }) {    
+
 
         const navigate = useNavigate();
         
      
         return (
-          <div className='home-container'>
+       
             <Card className='bill-card'>
               <CardTitle className='bill-name'>{bill.title}</CardTitle>
               <CardImg
@@ -27,7 +42,7 @@ export default function BillCard({ bill, handleDelete }) {
               <CardBody>
                 <CardSubtitle className='bill-color'>{bill.provider}</CardSubtitle>
                 <CardSubtitle className='bill-color'>{bill.imageURL}</CardSubtitle>
-                <CardSubtitle className='bill-color'>{bill.outOfPocket}</CardSubtitle>
+                <CardSubtitle className='bill-color'>${bill.outOfPocket}</CardSubtitle>
                       <Button
                         className='edit-bill'
                         onClick={() => navigate(`/Edit/${bill.id}`)}
@@ -41,14 +56,36 @@ export default function BillCard({ bill, handleDelete }) {
                     >
                       Delete
                     </Button>
+                    {!billReviewed && ( 
                     <Button
-                      className='btn btn-danger'
-                      type='button' >                 
+                      className='add-to-archive'
+                      type='button'
+                      onClick={() => {
+                        archiveBill(bill.id)
+                        navigate("/Archive");
+                        
+                      }}                      
+                      >                 
                      Archive 
                     </Button>
+                    )}
               </CardBody>
             </Card>
-          </div>
+      
         );
       }
+
+      BillCard.propTypes = {
+        billCard: PropTypes.shape({
+         id: PropTypes.number,
+          title: PropTypes.string,
+          imageURL: PropTypes.string,
+          provider: PropTypes.string,
+          outOfPocket: PropTypes.number
+          
+        })
+       
+      };
+
+    
       
