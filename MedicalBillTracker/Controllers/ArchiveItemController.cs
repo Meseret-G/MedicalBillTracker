@@ -21,7 +21,6 @@ namespace MedicalBillTracker.Controllers
         }
 
 
-
         // GET: api/<AllArchiveItems>
         //[HttpGet]
         //public IActionResult GetAllEvents()
