@@ -64,7 +64,7 @@ namespace MedicalBillTracker.Repos
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            FirebaseKeyId = reader.GetString(reader.GetOrdinal("FirebaseKeyId")),
+                            
                         };
                         return patient;
                     }
@@ -99,7 +99,7 @@ namespace MedicalBillTracker.Repos
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            FirebaseKeyId = reader.GetString(reader.GetOrdinal("FirebaseKeyId")),
+                           
                         };
                         return patient;
                     }
@@ -112,7 +112,7 @@ namespace MedicalBillTracker.Repos
             }
         }
 
-        public bool CheckPatientExists(string firebaseKeyId)
+        public bool CheckPatientExists(int Id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -120,10 +120,10 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT Id, [Name], Email, FirebaseKeyID FROM Patient
-                                        WHERE FirebaseKeyId = @firebaseKeyId
+                                        SELECT Id, [Name], Email FROM Patient
+                                        WHERE Id = @Id
                                         ";
-                    cmd.Parameters.AddWithValue("@firebaseKeyId", firebaseKeyId);
+                    cmd.Parameters.AddWithValue("@Id", Id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -140,6 +140,41 @@ namespace MedicalBillTracker.Repos
             }
         }
 
+        // Get patient by patient
+        public Patient GetPatientById(int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT * FROM Patient
+                                        WHERE Id = @id                                        ";
+                    cmd.Parameters.AddWithValue("@Id", Id);
 
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Patient patient = new Patient
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Email = reader.GetString(reader.GetOrdinal("Email"))
+
+                        };
+                        return patient;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                    }
+                }
+            }
+        }
+
+
+        }
     }
-}

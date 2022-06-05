@@ -1,6 +1,7 @@
 import React , {useState, useEffect }from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { createBill, getBillById, updateBill } from '../Data/BilllData';
+//import getPatientbyId from '../Data/PatientData';
 
 
 
@@ -9,11 +10,15 @@ const initialState = {
   provider: '',
   imageURL: '',
   outOfPocket : '',
+  isArchived: false
+  
 };
 
 export default function BillForm() {
   const [formInput, setFormInput] = useState({});
   const { dbKey } = useParams();
+
+  //const currentPatient = getPatientbyId
 
   const navigate = useNavigate();
 
@@ -26,11 +31,18 @@ export default function BillForm() {
           title: obj?.title,
           provider: obj?.provider,
           imageURL: obj?.imageURL,
-          outOfPocket: obj?.outOfPocket,      
+          outOfPocket: obj?.outOfPocket, 
+           isArchived: false      
+             
         });
       });
     } else {
-      setFormInput(initialState);
+      setFormInput({
+        title: '',
+      provider: '',
+      imageURL: '',
+      outOfPocket : '',
+      isArchived: false });
     }
   }, []);
 
@@ -66,7 +78,7 @@ export default function BillForm() {
       <h3>Bill Form</h3>
       <form onSubmit={handleSubmit}>
         <div>
-        <label className='form-label' htmlFor="rent">
+        <label className='form-label' htmlFor="bill">
                 Bill Title:
             </label>
           <input
@@ -80,7 +92,7 @@ export default function BillForm() {
           />
         </div>
         <div>
-        <label className='form-label' htmlFor="rent">
+        <label className='form-label' htmlFor="bill">
                Provider Name:
             </label>
           <input
@@ -95,7 +107,7 @@ export default function BillForm() {
         </div>
             
         <div>
-        <label className='form-label' htmlFor="rent">
+        <label className='form-label' htmlFor="bill">
                 Image:
             </label>
           <input
@@ -109,7 +121,7 @@ export default function BillForm() {
           />
         </div>
         <div>
-        <label className='form-label' htmlFor="rent">
+        <label className='form-label' htmlFor="bill">
                 Out of Pocket
             </label>
           <input
@@ -121,6 +133,8 @@ export default function BillForm() {
             placeholder='Out of Pocket'
             required
           />
+         
+            
         </div> 
         <button className='addUpdate-button' type='submit'>
           {dbKey ? 'Update' : 'Submit'}

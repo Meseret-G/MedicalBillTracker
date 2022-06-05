@@ -49,9 +49,17 @@ const getAllBills = async () => {
   });
 
 const archiveBill = (billId) => new Promise((resolve, reject) =>{
-  axios.post(`${baseURL}/Archive/${billId}`)
+  axios.post(`${baseURL}/Bill/Archive/${billId}`)
   .then(() => getAllBills().then(resolve))
   .catch(reject);
 });
 
- export { createBill, getBillById, getAllBills, deleteBill, updateBill,archiveBill };
+const getArchiveBills = () =>
+  new Promise((resolve, reject) => {
+    axios
+      .get(`${baseURL}/Bill/Archive`)
+      .then((response) => resolve(Object.values(response.data)))
+      .catch(reject);
+  });
+
+ export { createBill, getBillById, getAllBills, deleteBill, updateBill,archiveBill, getArchiveBills };

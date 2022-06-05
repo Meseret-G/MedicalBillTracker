@@ -27,6 +27,11 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
 
 
         const navigate = useNavigate();
+
+        const handleClick = (e)=> {
+            archiveBill(bill.id)
+            navigate("/Archive");
+        }
         
      
         return (
@@ -60,11 +65,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                     <Button
                       className='add-to-archive'
                       type='button'
-                      onClick={() => {
-                        archiveBill(bill.id)
-                        navigate("/Archive");
-                        
-                      }}                      
+                      onClick={handleClick}                      
                       >                 
                      Archive 
                     </Button>

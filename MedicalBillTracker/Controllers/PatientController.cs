@@ -38,43 +38,57 @@ namespace MedicalBillTracker.Controllers
         // Get a Patient by their firebaseKey  
 
         // GET api/<PatientController>/5
-        [HttpGet("Patient/{firebaseKeyId}")]
-        public ActionResult GetPatientByFirebaseKeyId(string firebaseKeyId)
-        {
-            Patient patient = _patientRepo.GetPatientByFirebaseKeyId(firebaseKeyId);
+        //[HttpGet("Patient/{firebaseKeyId}")]
+        //public ActionResult GetPatientByFirebaseKeyId(string firebaseKeyId)
+        //{
+        //    Patient patient = _patientRepo.GetPatientByFirebaseKeyId(firebaseKeyId);
 
+        //    if (patient == null)
+        //    {
+
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return Ok(patient);
+        //    }
+        //}
+
+
+        // GET api/<PatientController>/5
+        [HttpGet("{patientId}")]
+        public IActionResult GetPatientByPatientId(int patientId)
+        {
+
+            Patient patient = _patientRepo.GetPatientById(patientId);
             if (patient == null)
             {
-
                 return NotFound();
             }
-            else
-            {
-                return Ok(patient);
-            }
+            return Ok(patient);
         }
 
-//Authentication 
-       [Authorize]   
-        [HttpGet("Auth")]
-        public async Task<IActionResult> GetUserAuthStatus()
-        {
-            string uid = User.FindFirst(claim => claim.Type == "user_id").Value;
-            bool patientexists = _patientRepo.CheckPatientExists(uid);
-            if (!patientexists)
-            {
-                Patient userFromToken = new Patient()
-                {
-                    Name = User.Identity.Name,
-                    FirebaseKeyId = uid,
-                };
+        //Authentication 
+        //[Authorize]   
+        //[HttpGet("Auth")]
+        //public async Task<IActionResult> GetUserAuthStatus()
+        //{
+        //    string uid = User.FindFirst(claim => claim.Type == "user_id").Value;
+        //    bool patientexists = _patientRepo.CheckPatientExists(uid);
+        //    if (!patientexists)
+        //    {
+        //        Patient userFromToken = new Patient()
+        //        {
+        //            Name = User.Identity.Name,
+        //            FirebaseKeyId = uid,
+        //        };
 
-                _patientRepo.CreatePatient(userFromToken);
-                return Ok();
-            }
-            Patient patientExists = _patientRepo.GetPatientByFirebaseKeyId(uid);
-            return Ok(patientExists);
-        }
+        //        _patientRepo.CreatePatient(userFromToken);
+        //        return Ok();
+        //    }
+        //    Patient patientExists = _patientRepo.GetPatientByFirebaseKeyId(uid);
+        //    return Ok(patientExists);
+        //}
 
         // GET api/<PatientController>/Email/5
         [HttpGet("Email/{email}")]

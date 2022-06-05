@@ -4,11 +4,17 @@ import { getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 
 const baseURL = 'https://localhost:7033/api';
 
-
+const getPatientbyId = (id) =>
+  new Promise((resolve, reject) => {
+    axios
+      .get(`${baseURL}/Patient/${id}`)
+      .then((response) => resolve(response.data))
+      .catch(reject);
+  });
   //Checks if patient exists on login using token. If patient does not exists, create patient.
  
  
-  const patientExistsInDB = async () => {
+   const patientExistsInDB = async () => {
     const token = sessionStorage.getItem('token');
     await axios.get(`${baseURL}/Patient/Auth`, {
       headers: { Authorization: 'Bearer ' + token },
@@ -25,4 +31,4 @@ const baseURL = 'https://localhost:7033/api';
     });
 
 
-export { patientExistsInDB, signInPatient,signOutPatient };
+export { getPatientbyId, signInPatient, signOutPatient, patientExistsInDB  } ;

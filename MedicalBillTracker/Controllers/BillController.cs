@@ -72,5 +72,48 @@ namespace MedicalBillTracker.Controllers
             _billRepo.DeleteBill(id);
 
         }
+
+        //// Archieving Methods
+        [HttpPut("Archive/{billId}")]
+        public IActionResult ArchiveBills(int id )
+        {
+            //editing exiting bill property (isArchived) to true
+            try
+            {
+                _billRepo.ArchiveBill(id);
+                return Ok();
+            }
+            catch
+            {
+             return BadRequest();   
+            }
+           
+        }
+
+
+        [HttpGet("Archive")]
+        public List<Bill> Get()
+        {
+            return _billRepo.GetArchiveBills();
+        }
+
+
+        //// grab all archive bills for this user
+        //[HttpGet("PatientArchive/{patientId}")]
+        //public IActionResult GetUsersArchiveBills(int patientId)
+        //{
+        ////    // check if user exist
+        ////    // return all their archived bills (isAchieved == true)
+        //var userArchive = _billRepo.GetArchivedBills(patientId);
+        //    if (userArchive != null)
+        //    {
+        //        return Ok(userArchive);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+
     }
 }

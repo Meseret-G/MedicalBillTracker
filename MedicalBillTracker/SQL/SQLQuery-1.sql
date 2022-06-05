@@ -16,8 +16,8 @@ GO
 
 DROP TABLE IF EXISTS Bill;
 DROP TABLE IF EXISTS Patient;
-DROP TABLE IF EXISTS Archive;
-DROP TABLE IF EXISTS ArchiveItem;
+--DROP TABLE IF EXISTS Archive;
+--DROP TABLE IF EXISTS ArchiveItem;
 
 
 
@@ -25,8 +25,6 @@ CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL,
-    [FirebaseKeyId] VARCHAR(55) NOT NULL UNIQUE,
-    CONSTRAINT UQ_Email UNIQUE(Email)
 );
 
 CREATE TABLE Bill (
@@ -35,11 +33,12 @@ CREATE TABLE Bill (
     [Provider] VARCHAR(55) NOT NULL,
     ImageURL TEXT,
     OutOfPocket DECIMAL(9,2) NOT NULL,
-    --IsOpen BIT NOT NULL,
-    --BillDate DATETIME NOT NULL,
-   --PatientId INTEGER NOT NULL,
-   --CONSTRAINT [FK_Bill-Patient] FOREIGN KEY (PatientId) REFERENCES [Patient]([Id]) 
-);
+    isArchived BIT NOT NULL DEFAULT 0,
+  
+)
+
+
+
 
 CREATE TABLE Archive  (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
@@ -53,28 +52,29 @@ CREATE TABLE ArchiveItem (
     CONSTRAINT FK_ArchiveItem_Bill FOREIGN KEY (BillId) REFERENCES [Bill](Id),
     CONSTRAINT FK_ArchiveItem_Archive FOREIGN KEY (ArchiveId) REFERENCES [Archive](Id) 
 )
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00);
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00);
 
-INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Jane', 'jame@gmail.com', 1234)
-INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Mercy', 'mercy@gmail.com', 3456);
-INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('Unlucky', 'unlucky@gmail.com', 2345);
-INSERT INTO Patient ([Name], Email, [FirebaseKeyId]) VALUES ('GG', 'gg@gmail.com', 2875);
+INSERT INTO Patient ([Name], Email) VALUES ('Jane', 'jame@gmail.com')
+INSERT INTO Patient ([Name], Email) VALUES ('Mercy', 'mercy@gmail.com');
+INSERT INTO Patient ([Name], Email) VALUES ('Unlucky', 'unlucky@gmail.com');
+INSERT INTO Patient ([Name], Email) VALUES ('GG', 'gg@gmail.com');
 
-
-
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 1);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00, 1);
 
 
-select * FROM
-dbo.Bill;
 
-select * FROM
-dbo.Patient;
+
+
+
+
+select * FROM Patient;
+
+
 
 EXEC sp_RENAME 'Patient.UID' , 'FirebaseKeyId', 'COLUMN'
 
-ALTER TABLE ArchiveItem
-DROP COLUMN BillReceived
+ALTER TABLE Patient
+DROP COLUMN FirebaseKeyId
 
 select * FROM ArchiveItem
 
@@ -99,10 +99,10 @@ ALTER TABLE Bill
 ALTER COLUMN [DATE] DATETIME NOT NULL;
 
 
-EXEC sp_RENAME 'Bill.[Date]' , 'Date', 'COLUMN'
+EXEC sp_RENAME 'Bill.[isArchived]' , 'IsArchived', 'COLUMN'
 
 
-INSERT INTO Bill ([Title], [Provider],[Date],ImageURL, OutOfPocket, IsOpen) VALUES ('Emergency Room', 'Hospital', '2022-05-05','https://www.mauryregional.com/media/Image/banner-emergency.jpg','20', 0);
+INSERT INTO Bill ([Title], [Provider],[Date],ImageURL, OutOfPocket, IsOpen) VALUES ('Emergency Room', 'Hospital', '2022-05-05','https://www.mauryregional.com/media/Image/banner-emergency.jpg','20', 1);
 
 SELECT COLUMN_NAME,
 DATA_TYPE
@@ -137,10 +137,24 @@ select * FROM ArchiveItem;
 --
 
 ALTER TABLE Bill
-DROP CONSTRAINT FK_PatientId
+ADD IsArchived BIT NOT NULL DEFAULT 0;
 
 
 select * from Bill
 
 alter table dbo.Bill
 alter column [[[Date]]] datetime NOT NULL
+
+-- able to insert primary key
+SET IDENTITY_INSERT dbo.Archive OFF
+
+USE MedicalBillTracker
+
+
+ALTER TABLE Bill
+ADD CONSTRAINT FK_Bill_Patient FOREIGN KEY (PatientId) REFERENCES [Patient](Id);
+
+
+                        SELECT * FROM Bill
+WHERE
+isArchived = 1  
