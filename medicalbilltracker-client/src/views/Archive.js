@@ -2,43 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CardBody, CardTitle } from "reactstrap";
 import { BillCard } from "../components";
 import getArchive from "../Data/ArchiveData";
-
-
-// const Content = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   text-align: center;
-//   padding-top: 20px;
-// `;
-
-// const Total = styled.div`
-//   display: flex;
-//   width: 200px;
-//   height: 65px;
-//   border: 5px solid black;
-//   border-radius: 10px;
-//   justify-content: center;
-//   align-content: center;
-//   background-color: #F9F6EE;
-// `;
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
-
-// const EmptyCartTextContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 250px;
-//   height: 100px;
-//   border-radius: 10px;
-//   border: black 5px solid;
-//   background-color: #F9F6EE;
-// `;
+import { getArchiveBills } from "../Data/BilllData";
 
 export default function Archive() {
   const [bills, setBills] = useState([]);
@@ -54,7 +18,7 @@ export default function Archive() {
 
   useEffect(() => {
     let isMounted = true;
-getArchive().then((billArray) => {
+getArchiveBills().then((billArray) => {
       if (isMounted) setBills(billArray);
     });
     return () => {

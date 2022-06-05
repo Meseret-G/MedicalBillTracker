@@ -9,6 +9,9 @@ namespace MedicalBillTracker.Repos
       void AddBill(Bill bill);
         void UpdateBill(int id, Bill bill);
         void DeleteBill(int id);
+        void ArchiveBill(int id);
+        public List<Bill> GetArchiveBills();
+
     }
 
 }
