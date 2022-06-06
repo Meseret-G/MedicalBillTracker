@@ -62,4 +62,14 @@ const getArchiveBills = () =>
       .catch(reject);
   });
 
- export { createBill, getBillById, getAllBills, deleteBill, updateBill,archiveBill, getArchiveBills };
+  
+  const deleteArchiveBill = (billId) =>
+  new Promise((resolve, reject) => {
+    axios
+      .delete(`${baseURL}/Bill/Archive/Delete/${billId}`)
+      .then(() => getArchiveBills().then(resolve))
+      .catch(reject);
+  });
+
+
+ export { createBill, getBillById, getAllBills, deleteBill, updateBill,archiveBill, getArchiveBills, deleteArchiveBill };

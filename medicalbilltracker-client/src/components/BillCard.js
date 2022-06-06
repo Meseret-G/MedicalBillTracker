@@ -1,16 +1,19 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  CardTitle,
-  CardBody,
-  Button,
-  CardSubtitle,
-  CardImg,
-  Card,
-} from 'reactstrap';
-import { archiveBill } from '../Data/BilllData';
+// import { 
+//   CardTitle,
+//   CardBody,
+//   Button,
+//   CardSubtitle,
+//   CardImg,
+//   Card,
+//   CardHeader,
+//   CardFooter
+// } from 'reactstrap';
+// import { archiveBill } from '../Data/BilllData';
 import PropTypes from "prop-types";
+import { CardImg } from 'reactstrap';
 //import styled from 'styled-components';
 
 // const ButtonStyle = styled(Button)`
@@ -35,8 +38,57 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
         
      
         return (
-       
-            <Card className='bill-card'>
+          <div className="card-container"> 
+       <div className="flip-card">
+
+         <div className="flip-card-inner">
+           <div className="flip-card-front">
+         
+           <h1 className="provider-name">{bill.title}</h1>
+           <h1 className="provider-name">${bill.outOfPocket}</h1>
+         
+        </div>
+        
+      
+         <div className="flip-card-back">
+         <h1 className="provider-name">{bill.provider}</h1>
+         <img
+           alt="providerimage"
+           src= {bill.imageURL}
+            className="image-url"
+            style={{width: "300px", height: "200px"}}
+            onClick={() => navigate(`/BillDetail/${bill.id}`)}
+         />
+           <button
+                        className='edit-bill'
+                        onClick={() => navigate(`/Edit/${bill.id}`)}
+                      >
+                        Edit
+                      </button>
+                    <button
+                      className='btn btn-danger'
+                      type='button'
+                      onClick={() => handleDelete(bill.id)}
+                    >
+                      Delete
+                    </button>
+                    {!billReviewed && ( 
+                    <button
+                      className='add-to-archive'
+                      type='button'
+                      onClick={handleClick}                      
+                      >                 
+                     Archive 
+                    </button>
+                    )}
+
+         </div>
+         </div>
+         </div>
+
+            {/* <Card className='bill-card'>
+              <CardHeader className = "card-header">Header</CardHeader>
+              <CardBody>
               <CardTitle className='bill-name'>{bill.title}</CardTitle>
               <CardImg
                 alt='bill image'
@@ -44,7 +96,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                 src={bill.imageURL}
                 onClick={() => navigate(`/BillDetail/${bill.id}`)}
               />
-              <CardBody>
+              
                 <CardSubtitle className='bill-color'>{bill.provider}</CardSubtitle>
                 <CardSubtitle className='bill-color'>{bill.imageURL}</CardSubtitle>
                 <CardSubtitle className='bill-color'>${bill.outOfPocket}</CardSubtitle>
@@ -71,7 +123,9 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                     </Button>
                     )}
               </CardBody>
-            </Card>
+              <CardFooter className="card-footer">Footer</CardFooter>
+            </Card> */}
+      </div>
       
         );
       }

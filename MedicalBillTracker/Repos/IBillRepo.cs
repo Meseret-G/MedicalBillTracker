@@ -11,6 +11,7 @@ namespace MedicalBillTracker.Repos
         void DeleteBill(int id);
         void ArchiveBill(int id);
         public List<Bill> GetArchiveBills();
+        void DeleteArchiveBill(int id);
 
     }
 
