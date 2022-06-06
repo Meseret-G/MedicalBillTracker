@@ -230,6 +230,25 @@ isArchived = 1
             }
         }
 
+        public void DeleteArchiveBill(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FROM Bill
+                        WHERE IsArchived = 1
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id",id );
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         //public List<Bill> GetArchivedBills(int patientId)
         //{
         //    using (SqlConnection conn = Connection)

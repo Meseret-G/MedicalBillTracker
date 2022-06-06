@@ -3,10 +3,11 @@ import React from 'react';
 import './styles/index.scss';
 import Navbar from './components/Navbar';
 import AppRoutes from './routes';
-// auth from './Data/auth/apiKey';
-//import { useNavigate } from 'react-router-dom';
-//import { patientExistsInDB } from './Data/PatientData';
-//import SignIn from './views/SignIn';
+
+// import auth from './Data/auth/apiKey';
+// import { useNavigate } from 'react-router-dom';
+// import { patientExistsInDB } from './Data/PatientData';
+// import SignIn from './views/SignIn';
 
 
 function App() {
@@ -40,8 +41,9 @@ function App() {
   return (
      <div>
          <Navbar />  
+         
         <AppRoutes />
-      
+
 
   </div>  
   );

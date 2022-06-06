@@ -97,6 +97,12 @@ namespace MedicalBillTracker.Controllers
             return _billRepo.GetArchiveBills();
         }
 
+        [HttpDelete("Archive/Delete/{id}")]
+        public void DeleteBillFromArchive(int id)
+        {
+            _billRepo.DeleteArchiveBill(id);
+
+        }
 
         //// grab all archive bills for this user
         //[HttpGet("PatientArchive/{patientId}")]

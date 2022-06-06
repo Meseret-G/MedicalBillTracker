@@ -4,11 +4,13 @@ import {useNavigate} from 'react-router-dom';
 
 import { deleteBill, getAllBills } from '../Data/BilllData';
 import { BillCard } from '../components';
+import SearchBill from '../components/SearchBill';
 
 
 export default function Bill() {
     const navigate = useNavigate();
     const [bills, setBills] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
       let isMounted = true;
@@ -27,7 +29,7 @@ export default function Bill() {
   
     return (
       
-        <div className='add-bill-btn-container page-section'>
+        <div className='add-bill-btn-container'>
        
           <div className='add-bill-btn'>
             <Button
@@ -38,10 +40,26 @@ export default function Bill() {
             </Button>
           
           </div>
-        
+          <div className='search-filter'>
+          <SearchBill
+            placeholder='Search by Name Or Provider'
+            func={setFilteredData}
+            data={bills}
+          />
+        </div>
+
         <div className='bill-view-page'> 
         <>
-        {bills.map((bill) => (
+        {filteredData.length
+            ? filteredData.map((bill) => (
+                <BillCard
+                  key={bill.id}
+                  bill={bill}
+                  
+                  setBills={setBills}
+                />
+              )) :
+        bills.map((bill) => (
          
          <BillCard
         key={bill.id}
