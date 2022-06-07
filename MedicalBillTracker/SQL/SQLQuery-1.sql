@@ -158,3 +158,6 @@ ADD CONSTRAINT FK_Bill_Patient FOREIGN KEY (PatientId) REFERENCES [Patient](Id);
                         SELECT * FROM Bill
 WHERE
 isArchived = 1  
+
+SELECT * FROM 
+BIll;

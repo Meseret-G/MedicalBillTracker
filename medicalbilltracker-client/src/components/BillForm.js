@@ -64,12 +64,18 @@ export default function BillForm() {
       updateBill(dbKey, formInput).then(() => {
         resetForm()
         navigate('/');
-      });
-    }
+      }) 
+    
+    } else 
+    {
+
+    
       createBill({...formInput }).then(() => {
         resetForm();
         navigate('/');
       });    
+
+    }
   };
 
     return (

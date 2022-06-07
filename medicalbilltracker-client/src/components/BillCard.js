@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 //   CardHeader,
 //   CardFooter
 // } from 'reactstrap';
-// import { archiveBill } from '../Data/BilllData';
+import { archiveBill } from '../Data/BilllData';
 import PropTypes from "prop-types";
 import { CardImg } from 'reactstrap';
 //import styled from 'styled-components';
@@ -32,7 +32,8 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
         const navigate = useNavigate();
 
         const handleClick = (e)=> {
-            archiveBill(bill.id)
+            console.log("handle click for archive is hit")
+            archiveBill(bill.id, bill)
             navigate("/Archive");
         }
         
@@ -76,7 +77,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                     <button
                       className='add-to-archive'
                       type='button'
-                      onClick={handleClick}                      
+                      onClick={() => handleClick()}                      
                       >                 
                      Archive 
                     </button>

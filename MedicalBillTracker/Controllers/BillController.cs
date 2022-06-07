@@ -51,7 +51,7 @@ namespace MedicalBillTracker.Controllers
 
         // PATCH: api/<BillController>/Edit/5
         [HttpPut("Edit/{id}")]
-        public IActionResult UpdatePaper(int id, [FromBody] Bill billObj)
+        public IActionResult UpdateBill(int id, [FromBody] Bill billObj)
         {
             try
             {
@@ -75,12 +75,12 @@ namespace MedicalBillTracker.Controllers
 
         //// Archieving Methods
         [HttpPut("Archive/{billId}")]
-        public IActionResult ArchiveBills(int id )
+        public IActionResult ArchiveBill(int billId, [FromBody] Bill bill)
         {
             //editing exiting bill property (isArchived) to true
             try
             {
-                _billRepo.ArchiveBill(id);
+                _billRepo.ArchiveBill(billId,bill);
                 return Ok();
             }
             catch
@@ -104,13 +104,16 @@ namespace MedicalBillTracker.Controllers
 
         }
 
-        //// grab all archive bills for this user
-        //[HttpGet("PatientArchive/{patientId}")]
-        //public IActionResult GetUsersArchiveBills(int patientId)
+        // http put/ArchiveBill (bill id)
+        // call repo to archive bill(billId)
+        // update isarchived to true
+
+
+        //[HttpGet(/"PatientArchive")]
+        //public IActionResult GetUsersArchiveBills()
         //{
-        ////    // check if user exist
         ////    // return all their archived bills (isAchieved == true)
-        //var userArchive = _billRepo.GetArchivedBills(patientId);
+        //var userArchive = _billRepo.GetArchivedBills();
         //    if (userArchive != null)
         //    {
         //        return Ok(userArchive);
