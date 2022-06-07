@@ -167,30 +167,56 @@ namespace MedicalBillTracker.Repos
 
 
         //archieving bills
-
-
-        public void ArchiveBill(int Id)
+        public void ArchiveBill(int id, Bill bill)
         {
+            //using (SqlConnection conn = Connection)
+            //{
+            //    conn.Open();
+            //    using (SqlCommand cmd = conn.CreateCommand())
+            //    {
+            //        cmd.CommandText = @"
+            //           UPDATE Bill 
+            //           SET IsArchived = 1
+
+            //            WHERE Id = @id
+            //            ";
+
+            //        cmd.Parameters.AddWithValue("@id", Id);
+
+
+            //        cmd.ExecuteNonQuery();
+
+
+            //    }
+            //}
+
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                       UPDATE Bill 
-                       SET IsArchived = 1
-                       
-                        WHERE Id = @id
-                        ";
+                    cmd.CommandText = @"UPDATE Bill
+                                        SET Title = @title,
+	                                        Provider = @provider,
+	                                        ImageURL = @imageURL,
+	                                        OutOfPocket = @outOfPocket,
+                                            IsArchived = 1
+                                            
+		                                        WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", Id);
-                 
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@title", bill.Title);
+                    cmd.Parameters.AddWithValue("@provider", bill.Provider);
+                    cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
+                    cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
+                   
+
 
                     cmd.ExecuteNonQuery();
-
-                   
                 }
             }
+
+
         }
 
         public List<Bill> GetArchiveBills()
@@ -249,7 +275,7 @@ isArchived = 1
                 }
             }
         }
-        //public List<Bill> GetArchivedBills(int patientId)
+        //public List<Bill> GetArchivedBills()
         //{
         //    using (SqlConnection conn = Connection)
         //    {
@@ -259,9 +285,9 @@ isArchived = 1
         //            cmd.CommandText = @"
         //                                Select *
         //                                FROM [Bill]
-        //                                WHERE PatientId = @patientId
+        //                                WHERE isarchived is true
         //                              ";
-        //            cmd.Parameters.AddWithValue("@patientId", patientId);
+
 
         //            using (SqlDataReader reader = cmd.ExecuteReader())
         //            {
