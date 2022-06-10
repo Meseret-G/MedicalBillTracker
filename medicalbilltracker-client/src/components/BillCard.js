@@ -47,12 +47,15 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
          
            <h1 className="provider-name">{bill.title}</h1>
            <h1 className="provider-name">${bill.outOfPocket}</h1>
+
+           <h1 className="provider-name">{bill.date}</h1>
          
         </div>
         
       
          <div className="flip-card-back">
          <h1 className="provider-name">{bill.provider}</h1>
+         <h1 className="provider-name">{bill.personalNote}</h1>
          <img
            alt="providerimage"
            src= {bill.imageURL}

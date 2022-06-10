@@ -18,7 +18,7 @@ namespace MedicalBillTracker.Controllers
 
         // GET: BillController
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllBills()
         {
             List<Bill> bills = _billRepo.GetAll();
             if (bills == null) return NotFound();
@@ -27,7 +27,7 @@ namespace MedicalBillTracker.Controllers
 
         // GET api/<BillController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetByBillId(int id)
         {
             var bill = _billRepo.GetBillById(id);
             if (bill == null) return NotFound();
@@ -104,25 +104,6 @@ namespace MedicalBillTracker.Controllers
 
         }
 
-        // http put/ArchiveBill (bill id)
-        // call repo to archive bill(billId)
-        // update isarchived to true
-
-
-        //[HttpGet(/"PatientArchive")]
-        //public IActionResult GetUsersArchiveBills()
-        //{
-        ////    // return all their archived bills (isAchieved == true)
-        //var userArchive = _billRepo.GetArchivedBills();
-        //    if (userArchive != null)
-        //    {
-        //        return Ok(userArchive);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
 
     }
 }

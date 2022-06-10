@@ -1,7 +1,8 @@
 import React , {useState, useEffect }from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+//import auth from '../Data/auth/firebaseConfig';
 import { createBill, getBillById, updateBill } from '../Data/BilllData';
-//import getPatientbyId from '../Data/PatientData';
+
 
 
 
@@ -10,12 +11,15 @@ const initialState = {
   provider: '',
   imageURL: '',
   outOfPocket : '',
+  date: '',
+  personalNote: '',
   isArchived: false
   
 };
 
 export default function BillForm() {
   const [formInput, setFormInput] = useState({});
+  //const [uid, setUid] = useState(null);
   const { dbKey } = useParams();
 
   //const currentPatient = getPatientbyId
@@ -32,16 +36,25 @@ export default function BillForm() {
           provider: obj?.provider,
           imageURL: obj?.imageURL,
           outOfPocket: obj?.outOfPocket, 
+          date: obj.date,
+          personalNote: obj.personalNote,
            isArchived: false      
              
         });
       });
     } else {
+      // const currentUid = auth.currentUser?.uid;
+      // console.warn(currentUid.name);
+      // setUid(currentUid);
+
       setFormInput({
         title: '',
       provider: '',
       imageURL: '',
       outOfPocket : '',
+      //date: new Date().toDateString(),
+      date:'',
+      personalNote: '',
       isArchived: false });
     }
   }, []);
@@ -70,7 +83,7 @@ export default function BillForm() {
     {
 
     
-      createBill({...formInput }).then(() => {
+      createBill({...formInput}).then(() => {
         resetForm();
         navigate('/');
       });    
@@ -110,7 +123,36 @@ export default function BillForm() {
             placeholder='Bill Provider'
             required
           />
+          </div>
+          <div>
+            <label className='form-label' htmlFor="bill">
+               Personal NOte:
+            </label>
+            <input
+            type='text'
+            className='form-control'
+            name='personalNote'
+            value={formInput.personalNote || ''}
+            onChange={handleChange}
+            placeholder='Bill Provider'
+          />
         </div>
+        <div>
+        <label className='form-label' htmlFor="bill">
+               Service Date:
+            </label>
+  <input
+            type='text'
+            className='form-control'
+            name='date'
+            value={formInput.date || ''}
+            onChange={handleChange}
+            placeholder='Bill Provider'
+            required
+          />
+
+        </div>
+
             
         <div>
         <label className='form-label' htmlFor="bill">

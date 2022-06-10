@@ -5,7 +5,7 @@ import {
  NavLink, Button
  
 } from 'reactstrap';
-import { signInPatient, signOutPatient } from '../Data/PatientData';
+import { signOutUser } from '../Data/UserData';
 import logo from '../assets/logo.png';
 
 
@@ -19,7 +19,7 @@ import logo from '../assets/logo.png';
 //   box-shadow: 2px 2px 1px;
 // `;
 
-export default function AppNavbar({ patient }) {
+export default function AppNavbar() {
 
   return (
     <div className="nav">
@@ -38,15 +38,11 @@ export default function AppNavbar({ patient }) {
       <span className='nav-span'>Archive</span>
          </NavLink>
 
-    {patient ? (
-      <Button onClick={signOutPatient} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
+
+      <Button onClick={signOutUser} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
         Sign Out
       </Button>
-    ) : (
-      <Button onClick={signInPatient} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
-        Sign In
-      </Button>
-    )}
+
   </div>
 );
 }
