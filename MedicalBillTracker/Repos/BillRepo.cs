@@ -27,8 +27,9 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Title, [Provider],ImageURL,OutOfPocket, IsArchived
+                        SELECT Id, Title, [Provider],ImageURL,OutOfPocket, IsArchived, [Date], PersonalNote
                         FROM Bill";
+                  
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         List<Bill> bills = new List<Bill>();
@@ -42,8 +43,8 @@ namespace MedicalBillTracker.Repos
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutofPocket")),
                                 IsArchived = reader.GetBoolean(reader.GetOrdinal("IsArchived")),
-                              
-
+                                Date = reader.GetString(reader.GetOrdinal("Date")),
+                                PersonalNote = reader.GetString(reader.GetOrdinal("PersonalNote")),
                             };
                             bills.Add(bill);
                         }
@@ -61,7 +62,7 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id,Title, [Provider],ImageURL,OutOfPocket, IsArchived
+                        SELECT Id,Title, [Provider],ImageURL,OutOfPocket, IsArchived, [Date], PersonalNote
                         FROM Bill
                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
@@ -78,7 +79,8 @@ namespace MedicalBillTracker.Repos
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutofPocket")),
                                 IsArchived = reader.GetBoolean(reader.GetOrdinal("IsArchived")),
-                             
+                                Date = reader.GetString(reader.GetOrdinal("Date")),
+                                PersonalNote = reader.GetString(reader.GetOrdinal("PersonalNote")),
                             };
                             return bill;
                         }
@@ -98,9 +100,9 @@ namespace MedicalBillTracker.Repos
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Bill (Title, [Provider],ImageURL,OutOfPocket, IsArchived)
+                        INSERT INTO Bill (Title, [Provider],ImageURL,OutOfPocket, IsArchived, [Date], PersonalNote)
                         OUTPUT INSERTED.ID
-                        VALUES (@title, @provider,@imageURL,@outOfPocket, @isArchived);
+                        VALUES (@title, @provider,@imageURL,@outOfPocket, @isArchived, @date, @personalNote);
                     ";
                  
                     cmd.Parameters.AddWithValue("@title", _bill.Title);
@@ -108,9 +110,9 @@ namespace MedicalBillTracker.Repos
                     cmd.Parameters.AddWithValue("@imageURL", _bill.ImageURL);
                     cmd.Parameters.AddWithValue("@outOfPocket",_bill.OutOfPocket);
                     cmd.Parameters.AddWithValue("@isArchived", _bill.IsArchived);
-              
-
-
+                    cmd.Parameters.AddWithValue("@date", _bill.Date);
+                    cmd.Parameters.AddWithValue("@personalNote", _bill.PersonalNote);
+                    
                     cmd.ExecuteNonQuery();
                     
                 }
@@ -129,8 +131,9 @@ namespace MedicalBillTracker.Repos
 	                                        Provider = @provider,
 	                                        ImageURL = @imageURL,
 	                                        OutOfPocket = @outOfPocket,
-                                            IsArchived = @isArchived
-                                            
+                                            IsArchived = @isArchived,
+                                              Date = @date,
+                                              PersonalNote = @personalNote          
 		                                        WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -139,8 +142,9 @@ namespace MedicalBillTracker.Repos
                     cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
                     cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
                     cmd.Parameters.AddWithValue("@isArchived", bill.IsArchived);
-               
-
+                    cmd.Parameters.AddWithValue("@date", bill.Date);
+                    cmd.Parameters.AddWithValue("@personalNote", bill.PersonalNote);
+                 
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -169,27 +173,7 @@ namespace MedicalBillTracker.Repos
         //archieving bills
         public void ArchiveBill(int id, Bill bill)
         {
-            //using (SqlConnection conn = Connection)
-            //{
-            //    conn.Open();
-            //    using (SqlCommand cmd = conn.CreateCommand())
-            //    {
-            //        cmd.CommandText = @"
-            //           UPDATE Bill 
-            //           SET IsArchived = 1
-
-            //            WHERE Id = @id
-            //            ";
-
-            //        cmd.Parameters.AddWithValue("@id", Id);
-
-
-            //        cmd.ExecuteNonQuery();
-
-
-            //    }
-            //}
-
+            
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -200,6 +184,8 @@ namespace MedicalBillTracker.Repos
 	                                        Provider = @provider,
 	                                        ImageURL = @imageURL,
 	                                        OutOfPocket = @outOfPocket,
+                                            Date = @date,
+                                            PersonalNote = @personalNote,
                                             IsArchived = 1
                                             
 		                                        WHERE Id = @id";
@@ -209,7 +195,9 @@ namespace MedicalBillTracker.Repos
                     cmd.Parameters.AddWithValue("@provider", bill.Provider);
                     cmd.Parameters.AddWithValue("@imageURL", bill.ImageURL);
                     cmd.Parameters.AddWithValue("@outOfPocket", bill.OutOfPocket);
-                   
+                    cmd.Parameters.AddWithValue("@date", bill.Date);
+                    cmd.Parameters.AddWithValue("@personalNote", bill.PersonalNote);
+
 
 
                     cmd.ExecuteNonQuery();
@@ -246,6 +234,8 @@ isArchived = 1
                                 ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
                                 OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutOfPocket")),
                                 IsArchived = reader.GetBoolean(reader.GetOrdinal("IsArchived")),
+                                Date = reader.GetString(reader.GetOrdinal("Date")),
+                                PersonalNote = reader.GetString(reader.GetOrdinal("PersonalNote")),
                             };
                             bills.Add(bill);
                         }
@@ -275,44 +265,7 @@ isArchived = 1
                 }
             }
         }
-        //public List<Bill> GetArchivedBills()
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                                Select *
-        //                                FROM [Bill]
-        //                                WHERE isarchived is true
-        //                              ";
-
-
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                List<Bill> patientBills = new List<Bill>();
-        //                while (reader.Read())
-        //                {
-        //                    Bill patientBill = new Bill()
-        //                    {
-        //                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                        Title = reader.GetString(reader.GetOrdinal("Title")),
-        //                        Provider = reader.GetString(reader.GetOrdinal("Provider")),
-        //                        ImageURL = reader.GetString(reader.GetOrdinal("ImageURL")),
-        //                        OutOfPocket = reader.GetDecimal(reader.GetOrdinal("OutofPocket")),
-        //                        IsArchived = reader.GetBoolean(reader.GetOrdinal("IsArchived")),
-
-
-        //                    };
-        //                    patientBills.Add(patientBill);
-        //                }
-        //                return patientBills;
-        //            }
-        //        }
-        //    }
-        //}
-
+     
 
     }
 }

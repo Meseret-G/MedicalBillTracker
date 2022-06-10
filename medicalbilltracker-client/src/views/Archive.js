@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CardBody, CardTitle } from "reactstrap";
 import { BillCard } from "../components";
-//import getArchive from "../Data/ArchiveData";
+
 import { getArchiveBills } from "../Data/BilllData";
 
 export default function Archive() {

@@ -25,6 +25,7 @@ CREATE TABLE Patient (
 	Id INTEGER NOT NULL PRIMARY KEY IDENTITY,
 	[Name] VARCHAR(55) NOT NULL,
     Email VARCHAR(55) NOT NULL,
+
 );
 
 CREATE TABLE Bill (
@@ -34,6 +35,9 @@ CREATE TABLE Bill (
     ImageURL TEXT,
     OutOfPocket DECIMAL(9,2) NOT NULL,
     isArchived BIT NOT NULL DEFAULT 0,
+    [Date] VARCHAR(55) NOT NULl,
+    PersonalNote VARCHAR(55) NOT NUll,
+    --`UserId VARCHAR(55) NOT NUll,
   
 )
 
@@ -58,8 +62,8 @@ INSERT INTO Patient ([Name], Email) VALUES ('Mercy', 'mercy@gmail.com');
 INSERT INTO Patient ([Name], Email) VALUES ('Unlucky', 'unlucky@gmail.com');
 INSERT INTO Patient ([Name], Email) VALUES ('GG', 'gg@gmail.com');
 
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 1);
-INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00, 1);
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived, [Date], PersonalNote) VALUES ('Emergency Room', 'Hospital','https://www.mauryregional.com/media/Image/banner-emergency.jpg', 385.00, 1, '10/10/2021', 'six month follow up');
+INSERT INTO Bill ([Title], [Provider],ImageURL, OutOfPocket, isArchived, [Date], PersonalNote) VALUES ('Therapy', 'Nashville Therapy Center','https://i.imgur.com/jKFsoJs.jpg', 300.00, 1, '10/19/2018', 'was issue with my insurance');
 
 
 
@@ -138,6 +142,12 @@ select * FROM ArchiveItem;
 
 ALTER TABLE Bill
 ADD IsArchived BIT NOT NULL DEFAULT 0;
+
+
+
+
+ALTER TABLE Bill
+ADD [Date] Varchar(50) NOT NULL;
 
 
 select * from Bill
