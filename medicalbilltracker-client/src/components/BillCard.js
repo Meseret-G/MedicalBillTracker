@@ -10,10 +10,13 @@ import { useNavigate } from 'react-router-dom';
 //   Card,
 //   CardHeader,
 //   CardFooter
-// } from 'reactstrap';
+// Modal, ModalBody, ModalFooter
+//  } from 'reactstrap';
 import { archiveBill } from '../Data/BilllData';
 import PropTypes from "prop-types";
-import { CardImg } from 'reactstrap';
+
+
+
 //import styled from 'styled-components';
 
 // const ButtonStyle = styled(Button)`
@@ -30,6 +33,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
 
 
         const navigate = useNavigate();
+    
 
         const handleClick = (e)=> {
             console.log("handle click for archive is hit")
@@ -37,9 +41,9 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
             navigate("/Archive");
         }
         
-     
+      
         return (
-          <div className="card-container"> 
+          <div className="home-container"> 
        <div className="flip-card">
 
          <div className="flip-card-inner">
@@ -48,7 +52,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
            <h1 className="provider-name">{bill.title}</h1>
            <h1 className="provider-name">${bill.outOfPocket}</h1>
 
-           <h1 className="provider-name">{bill.date}</h1>
+           {/* <h1 className="provider-name">{bill.date}</h1> */}
          
         </div>
         
@@ -72,10 +76,16 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                     <button
                       className='btn btn-danger'
                       type='button'
+                     
                       onClick={() => handleDelete(bill.id)}
+                 
                     >
                       Delete
+                      
                     </button>
+
+                  
+            
                     {!billReviewed && ( 
                     <button
                       className='add-to-archive'
