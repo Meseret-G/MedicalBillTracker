@@ -28,8 +28,9 @@ export default function Bill() {
     };
   
     return (
+      <>
       
-        <div className='add-bill-btn-container'>
+        <div className='add-bill-btn-container page-section'>
        
           <div className='add-bill-btn'>
             <Button
@@ -47,15 +48,16 @@ export default function Bill() {
             data={bills}
           />
         </div>
+        </div>
 
-        <div className='bill-view-page'> 
+        <div className='bill-view-page page-section'> 
         <>
         {filteredData.length
             ? filteredData.map((bill) => (
                 <BillCard
                   key={bill.id}
                   bill={bill}
-                  
+                  bills={bills}
                   setBills={setBills}
                 />
               )) :
@@ -64,11 +66,12 @@ export default function Bill() {
          <BillCard
         key={bill.id}
         bill={bill}
-        handleDelete={handleDelete}      
+       handleDelete={handleDelete}      
        />
         ))}        
         </>
       </div>
-      </div>   
+      
+      </>
     );
 }
