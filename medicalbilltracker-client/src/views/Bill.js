@@ -30,18 +30,17 @@ export default function Bill() {
     return (
       <>
       
-        <div className='add-bill-btn-container page-section'>
-       
-          <div className='add-bill-btn'>
+        <div className='add-and-search-container page-section'>  
+        <div className="block">   
             <Button
-              className='btn btn-success'
+              className='add-bill-btn'
               onClick={() => navigate(`/BillForm`)}
             >
               Add New Bill
             </Button>
-          
-          </div>
-          <div className='search-filter'>
+            </div>  
+         <div className="block">Track your Bills</div>
+          <div className='block'>
           <SearchBill
             placeholder='Search by Name Or Provider'
             func={setFilteredData}
