@@ -67,6 +67,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
             style={{width: "300px", height: "200px"}}
             onClick={() => navigate(`/BillDetail/${bill.id}`)}
          />
+         <div className="button-container">
            <button
                         className='edit-bill'
                         onClick={() => navigate(`/Edit/${bill.id}`)}
@@ -74,7 +75,7 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
                         Edit
                       </button>
                     <button
-                      className='btn btn-danger'
+                      className='delete-bill'
                       type='button'
                      
                       onClick={() => handleDelete(bill.id)}
@@ -88,14 +89,14 @@ export default function BillCard({ bill, handleDelete, billReviewed }) {
             
                     {!billReviewed && ( 
                     <button
-                      className='add-to-archive'
+                      className='archive-btn'
                       type='button'
                       onClick={() => handleClick()}                      
                       >                 
                      Archive 
                     </button>
                     )}
-
+</div>
          </div>
          </div>
          </div>

@@ -39,9 +39,9 @@ export default function AppNavbar() {
          </NavLink>
 
 
-      <Button onClick={signOutUser} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
+      {/* <Button onClick={signOutUser} className="login-btn" type="button" style={{ width: '150px', height: '40px', border: '2px solid black'}}>
         Sign Out
-      </Button>
+      </Button> */}
 
   </div>
 );

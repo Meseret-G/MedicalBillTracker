@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import {
     Button  
   } from "reactstrap";
+  import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchBill({  func, placeholder, data }) {
     const [wordEntered, setWordEntered] = useState('');
@@ -20,20 +21,23 @@ export default function SearchBill({  func, placeholder, data }) {
     };
 
   return (
-    <>  
-          <div className="searchInputs" >
+    <>
+          <div className="search-container">
             <input
+            className="search-input" 
               value = {wordEntered}
               placeholder={placeholder}
               onChange={handleSearch}
             />
-            <Button type='button'
+            {/* <Button type='button'
             className = 'search-button'
             >
               Search
-            </Button>
+            </Button> */}
+           
+            <SearchIcon />
+                   
           </div>
-        
     </>
   )
 }

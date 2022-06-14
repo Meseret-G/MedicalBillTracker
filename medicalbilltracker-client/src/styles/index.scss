@@ -3,7 +3,7 @@ body {
   }
 
   .main-container {
-    margin: -1em 8em 0 8em;
+    margin: -1em 5rem 0 5rem;
     padding: 2em 1em 0 1em;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,8 +16,63 @@ body {
     padding: 1em;
     box-shadow: 0px 0px 3px white;
   }
+    
+  .add-and-search-container{
+    width:100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    background-image:repeating-radial-gradient();
+   
+    }
+   
+    // Search
+.search-container{
+
+ 
+height: 8rem;
+  padding-top: 8rem;
+  
+
+   width: 300px;
+   margin-left: 25rem;
+   margin-bottom: 10rem;
 
 
+ .search-input{
+ height: 30px;
+  width: 100%;
+  padding-right: .5rem;
+  align-items: center;
+  margin-right: 15rem;
+  //margin-top: 1rem;
+  border-radius: 6px 6px 6px 6px;
+
+ 
+.search-icon {
+
+margin-left: 0.5rem;
+}
+  
+ }
+
+
+  
+}
+  
+
+  .add-bill-btn {
+    background-color: rgb(91, 166, 204);
+    //margin-left: 45%;
+    margin-top: 0.25em;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    width: 8rem;
+    height: 3rem;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+  
 
 
 // .flip-card {
@@ -25,13 +80,6 @@ body {
 // }
 
 
-.add-bill-btn-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.add-bill-btn-container > * {
-}
 
 
 .home-container{
@@ -50,7 +98,8 @@ body {
     flex-direction: column;
     align-items: center;
   background-color: transparent;
-  width: 400px;
+ width: 400px;
+ //width:100%;
   height: 400px;
   //border: 1px solid;
   perspective: 1000px;
@@ -94,20 +143,52 @@ body {
   color: black;
 }
 .flip-card-back {
-  background-color: rgb(57, 69, 64);
+  background-color: rgb(183, 203, 194);
   color: white;
   transform: rotateY(180deg);
-}
-
-.searchInputs {
-  margin: 0.2rem;
-
-  .search-button {
-    color: white;
-    border-radius: 6px 6px 6px;
-    margin-left: 0.5rem;
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+   justify-content: space-between;
+   .edit-bill {
+    border-radius: 2rem;
+    width: 4rem;
+    height: 2rem;
+    color:white;
+    background-color: rgb(18, 55, 43);
+    margin-left: 1rem;
+   
+   }
+   .delete-bill{
+    border-radius: 2rem;
+    width: 4rem;
+    height: 2rem;
+    color:white;
+    background-color: rgb(230, 17, 17);
+   }
+   .archive-btn{
+    border-radius: 2rem;
+    width: 4rem;
+    height: 2rem;
+    color:white;
+    background-color: rgb(18, 55, 43);
+    margin-right: 1rem;
+    
+   }
   }
 }
+
+.bill-view-page {
+  padding-right: 8rem;
+}
+// .search-container {
+//   padding-right: 8rem;
+//   height: 25px;
+// }
+
+
 }
 
 .addUpdate-button {
@@ -151,4 +232,49 @@ body {
     padding: 0;
   }
     
+}
+
+//Bill Form
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  //border: 1px solid red;
+}
+
+.form-box{
+  min-width: 100%;
+  height: 100vh;
+  border: 0.5rem outset pink 5vw;
+  margin: 0vw;
+    padding: 5vw ;
+    position:relative; 
+  
+}
+.form-box h3{
+  font-size: 35px ;
+  text-align: center;
+  color: #F55A00;
+  margin: 0 0 .5vh 0;
+}
+
+.form-box label{
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  margin: 0 0 2vh 0;
+}
+.form-box input, textarea{
+  display: block;
+  width: 100%;
+  padding: .5rem .8rem .5rem .8rem;
+  margin: .9vw 0 ;
+  border:0;
+  border-radius: 5px;
+  font-size: 20px;
+ 
+}
+
+.form-box textarea{
+  height: 15vh;
 }

@@ -92,13 +92,13 @@ export default function BillForm() {
   };
 
     return (
-        
-        <>
+            
+        <div className="form-box">
       <h3>Bill Form</h3>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="input-fields">
         <label className='form-label' htmlFor="bill">
-                Bill Title:
+                Don't forget. Add it now!
             </label>
           <input
             type='text'
@@ -108,12 +108,7 @@ export default function BillForm() {
             onChange={handleChange}
             placeholder='Bill Title'
             required
-          />
-        </div>
-        <div>
-        <label className='form-label' htmlFor="bill">
-               Provider Name:
-            </label>
+          />  
           <input
             type='text'
             className='form-control'
@@ -122,72 +117,49 @@ export default function BillForm() {
             onChange={handleChange}
             placeholder='Bill Provider'
             required
-          />
-          </div>
-          <div>
-            <label className='form-label' htmlFor="bill">
-               Personal NOte:
-            </label>
-            <input
-            type='text'
-            className='form-control'
-            name='personalNote'
-            value={formInput.personalNote || ''}
-            onChange={handleChange}
-            placeholder='Bill Provider'
-          />
-        </div>
-        <div>
-        <label className='form-label' htmlFor="bill">
-               Service Date:
-            </label>
-  <input
+          />           
+          <input
             type='text'
             className='form-control'
             name='date'
             value={formInput.date || ''}
             onChange={handleChange}
-            placeholder='Bill Provider'
+            placeholder='Service Date'
             required
-          />
-
-        </div>
-
-            
-        <div>
-        <label className='form-label' htmlFor="bill">
-                Image:
-            </label>
+          />    
           <input
             type='url'
             className='form-control'
             name='imageURL'
             value={formInput.imageURL || ''}
             onChange={handleChange}
-            placeholder='Image'
+            placeholder=' Image URL'
             
           />
-        </div>
-        <div>
-        <label className='form-label' htmlFor="bill">
-                Out of Pocket
-            </label>
+       
           <input
             type='number'
             className='form-control'
             name='outOfPocket'
             value={formInput.outOfPocket || ''}
             onChange={handleChange}
-            placeholder='Out of Pocket'
+            placeholder='How much you paid out of pocket'
             required
           />
-         
-            
-        </div> 
+            <textarea
+            type='text'
+            className='form-control'
+            name='personalNote'
+            value={formInput.personalNote || ''}
+            onChange={handleChange}
+            placeholder='Add comment'
+          />     
         <button className='addUpdate-button' type='submit'>
           {dbKey ? 'Update' : 'Submit'}
         </button>
-      </form>
-    </>
+        </div>
+      </form>   
+      </div>
+    
   );
 }
