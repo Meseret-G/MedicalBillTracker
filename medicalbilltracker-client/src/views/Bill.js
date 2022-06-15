@@ -11,7 +11,7 @@ export default function Bill() {
     const navigate = useNavigate();
     const [bills, setBills] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-
+ 
     useEffect(() => {
       let isMounted = true;
       getAllBills().then((billArray) => {
@@ -31,17 +31,20 @@ export default function Bill() {
       <>
       
         <div className='add-and-search-container page-section'>  
-        <div className="block">   
-            <Button
-              className='add-bill-btn'
+        <div className="add-bill">
+            <Button 
+             className="add-bill-btn"
               onClick={() => navigate(`/BillForm`)}
             >
               Add New Bill
             </Button>
-            </div>  
-         <div className="block">Track your Bills</div>
-          <div className='block'>
-          <SearchBill
+
+            </div>
+            <h6 className="intro" style={{fontSize: "40px", marginLeft: "7rem", color:"peru"}}>Track Your Medical Bills</h6>
+         
+          <div className='search-container'  >
+          <SearchBill 
+          style={{height: "30px"}}
             placeholder='Search by Name Or Provider'
             func={setFilteredData}
             data={bills}

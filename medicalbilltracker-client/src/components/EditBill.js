@@ -13,7 +13,7 @@ export default function EditBill() {
   return (
     <>
       <h3 className="edit-view">
-        Edit Bill
+    
       </h3>
       <div className="form-container">
         <BillForm editItem={editItem} />
