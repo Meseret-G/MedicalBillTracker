@@ -12,58 +12,23 @@ body {
  
   .page-section {
     background-color: white;
+
     margin: 1em 0 1em 0;
     padding: 1em;
-    box-shadow: 0px 0px 3px white;
+    box-shadow: 0px 0px 3px rgb(42, 129, 125);
   }
     
   .add-and-search-container{
-    width:100%;
-    margin: 0 auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    background-image:repeating-radial-gradient();
-   
-    }
-   
-    // Search
-.search-container{
-
- 
-height: 8rem;
-  padding-top: 8rem;
+    height: 200px;
   
-
-   width: 300px;
-   margin-left: 25rem;
-   margin-bottom: 10rem;
-
-
- .search-input{
- height: 30px;
-  width: 100%;
-  padding-right: .5rem;
-  align-items: center;
-  margin-right: 15rem;
-  //margin-top: 1rem;
-  border-radius: 6px 6px 6px 6px;
-
- 
-.search-icon {
-
-margin-left: 0.5rem;
-}
-  
- }
-
+  }
 
   
-}
-  
-
   .add-bill-btn {
-    background-color: rgb(91, 166, 204);
-    //margin-left: 45%;
+    background-color: rgb(35, 95, 78);
     margin-top: 0.25em;
     border-radius: 6px 6px 6px 6px;
     color: white;
@@ -71,15 +36,33 @@ margin-left: 0.5rem;
     height: 3rem;
     font-size: 16px;
     font-weight: bolder;
+    margin-left: 4rem;
+   //
   }
   
 
 
-// .flip-card {
+
+
+.searchInputs {
+  margin: 8rem;
+  border-radius: 6px 6px 6px;
   
-// }
 
 
+  .search-button {
+    background-color: rgb(35, 95, 78);
+    margin-top: 0.25em;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    width: 8rem;
+    height: 3rem;
+    font-size: 16px;
+    font-weight: bolder;
+    margin-left: 1rem;
+   
+  }
+}
 
 
 .home-container{
@@ -139,8 +122,9 @@ margin-left: 0.5rem;
   backface-visibility: hidden;
 }
 .flip-card-front {
-  background-color: rgb(132, 175, 161);
-  color: black;
+  background-color:rgb(183, 203, 194);
+  color: white;
+  
 }
 .flip-card-back {
   background-color: rgb(183, 203, 194);
@@ -152,7 +136,9 @@ margin-left: 0.5rem;
     align-items: center;
     width: 100%;
    justify-content: space-between;
-   .edit-bill {
+   
+  }
+  .edit-bill {
     border-radius: 2rem;
     width: 4rem;
     height: 2rem;
@@ -177,7 +163,7 @@ margin-left: 0.5rem;
     margin-right: 1rem;
     
    }
-  }
+ 
 }
 
 .bill-view-page {
@@ -277,4 +263,61 @@ margin-left: 0.5rem;
 
 .form-box textarea{
   height: 15vh;
+}
+
+//Bill Details
+
+.bill-details-container {
+  flex-direction: column;
+  align-items: center;
+  margin: 1em 5em 0 5em;
+  padding: 5em 0 5em 0;
+  display: flex;
+  justify-content: center;
+  .bill-details-card {
+    border: 2px, solid, gray;
+    width: 80%;
+    align-items: center;
+    background-color: rgb(75, 93, 98);
+  }
+  .bill.details-name {
+    font-size: 2.5em;
+    font-weight: 500;
+    text-decoration: underline;
+    text-align: center;
+    color: white;
+  }
+  .paper-details-color,
+  .paper-details-specs,
+  .paper-details-weight {
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+  }
+  .bill-image {
+    width: 100%;
+    max-width: 300px;
+    min-height: 200px;
+    object-fit: cover;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background-color: rgb(75, 93, 98);
+  }
+  .edit-bill-detail {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    margin-left: 8rem;
+    border-color: gray;
+    box-shadow: 4px 4px 8px hsla(0, 10%, 25%, 0.471);
+  }
+  .delete-bill-detail {
+    background-color: rgb(146, 42, 42);
+    color: white;
+    border-radius: 10px;
+
+    border-color: gray;
+    box-shadow: 4px 4px 8px hsla(0, 10%, 25%, 0.471);
+  }
 }
