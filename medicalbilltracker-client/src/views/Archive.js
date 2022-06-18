@@ -31,10 +31,10 @@ getArchiveBills().then((billArray) => {
   }, [bills]);
 
 
-  const handleDeleteArchive = async (billId) => {
-    await deleteArchiveBill(billId);
-    getArchiveBills().then((billArray) => setBills(billArray));
-  };
+  // const handleDeleteArchive = async (billId) => {
+  //   await deleteArchiveBill(billId);
+  //   getArchiveBills().then((billArray) => setBills(billArray));
+  // };
 
   return (
     <CardBody>
