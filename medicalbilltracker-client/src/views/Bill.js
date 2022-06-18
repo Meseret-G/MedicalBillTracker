@@ -40,7 +40,7 @@ export default function Bill() {
             </Button>
 
             </div>
-            <h6 className="intro" style={{fontSize: "40px", marginLeft: "7rem", color:"peru"}}>Track Your Medical Bills</h6>
+            <h6 className="intro" style={{fontSize: "40px", marginLeft: "9rem", color:"#F55A00"}}>Track Your Medical Bills</h6>
          
           <div className='search-container'  >
           <SearchBill 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CardBody, CardTitle } from "reactstrap";
 import { BillCard } from "../components";
-
-import { getArchiveBills, deleteArchiveBill } from "../Data/BilllData";
+import { getArchiveBills } from "../Data/BilllData";
 
 export default function Archive() {
   const [bills, setBills] = useState([]);
@@ -30,12 +29,6 @@ getArchiveBills().then((billArray) => {
     getOutOfPocketTotal(bills);
   }, [bills]);
 
-
-  // const handleDeleteArchive = async (billId) => {
-  //   await deleteArchiveBill(billId);
-  //   getArchiveBills().then((billArray) => setBills(billArray));
-  // };
-
   return (
     <CardBody>
       {bills.length === 0 ? (
@@ -45,13 +38,12 @@ getArchiveBills().then((billArray) => {
       ) : (
         <CardBody>
           <CardTitle>
-            <h3>Out Of Pocket Total: ${archiveTotal}</h3>
+            <h3 className="archive-header" style={{fontWeight:"bolder", fontSize: "35px", color:"#F55A00", paddingBottom:"8px"}}>Out Of Pocket Total: ${archiveTotal}</h3>
           </CardTitle>
           <CardBody>
           {bills.map((bill) => (
             <BillCard key={bill.Id} 
             bill={bill} 
-         
              />
           ))}
           </CardBody>
