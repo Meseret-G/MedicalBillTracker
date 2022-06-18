@@ -1,35 +1,21 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { 
-//   CardTitle,
-//   CardBody,
-//   Button,
-//   CardSubtitle,
-//   CardImg,
-//   Card,
-//   CardHeader,
-//   CardFooter
-// Modal, ModalBody, ModalFooter
-//  } from 'reactstrap';
+
 import { archiveBill } from '../Data/BilllData';
 import PropTypes from "prop-types";
 
 
 export default function BillCard({ bill, handleDelete }) {    
 
-
         const navigate = useNavigate();
    
-    
-
         const handleClick = (e)=> {
             console.log("handle click for archive is hit")
             archiveBill(bill.id, bill)
             navigate("/Archive");
         }
-        
-      
+           
         return (
           <div className="home-container"> 
        <div className="flip-card">
@@ -38,17 +24,10 @@ export default function BillCard({ bill, handleDelete }) {
            <div className="flip-card-front">
 
            <h1 className="provider-name">{bill.provider}</h1>
-           <h1 className="provider-name">${bill.outOfPocket}</h1>
-     
-      
-       
-      
-          
-         
+           <h1 className="provider-name">${bill.outOfPocket}</h1>      
          
         </div>
-        
-      
+           
          <div className="flip-card-back">
          <h1 className="provider-name">{bill.title}</h1>
             
@@ -69,6 +48,7 @@ export default function BillCard({ bill, handleDelete }) {
                     >
                       Edit
                     </button>
+                    {!bill.isArchived ? ( 
                   <button
                     className='delete-bill'
                     type='button'
@@ -77,7 +57,9 @@ export default function BillCard({ bill, handleDelete }) {
                
                   >
                     Delete                      
-                  </button>        
+                  </button>   
+                   ) : ('')}
+                  
                   {!bill.isArchived ? ( 
                   <button
                     className='archive-btn'
@@ -87,17 +69,10 @@ export default function BillCard({ bill, handleDelete }) {
                    Archive 
                   </button>
                   ) : ('')}
-            </div>
-         
-
-        
-        
-       
+            </div>     
          </div>
          </div>
-         </div>
-
-            
+         </div>           
       </div>
       
         );
