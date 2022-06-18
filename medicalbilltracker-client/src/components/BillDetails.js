@@ -29,7 +29,42 @@ export default function BillDetails() {
 
   return (
     <div className='bill-details-container'>
-      <Card className='bill-details-card'>
+      <h6 className="detail-header" style={{fontWeight:"bolder", fontSize: "35px", color:"#F55A00", paddingBottom:"8px"}}> Bill Details</h6>
+      <table className="bill-table">
+        <thead>
+          <tr className="bill-table-row">
+
+            <th className="bill-table-cell th" >Title</th>
+            <th className="bill-table-cell th">Provider</th>
+            <th className="bill-table-cell th">Comment</th>
+            <th className="bill-table-cell th">Out of Pocket</th>  
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="bill-table-row">
+            <td className="bill-table-cell">{billDetail.title}</td>
+            <td className="bill-table-cell">{billDetail.provider}</td>
+            <td className="bill-table-cell">{billDetail.personalNote}</td>
+            <td className="bill-table-cell">${billDetail.outOfPocket}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+      <div className="detail-btn">
+      <Button
+                  className='edit-bill-detail'
+                  onClick={() => navigate(`/Edit/${billDetail.id}`)}
+                >
+                  Edit
+                </Button>        
+                <Button
+                  className='delete-bill-detail'
+                  onClick={() => handleDelete(billDetail.id)}
+                >
+                Delete
+              </Button> 
+              </div>
+      {/* <Card className='bill-details-card'>
         <CardImg
           alt="bill image"
           className="bill-image"
@@ -54,7 +89,7 @@ export default function BillDetails() {
                 >
                 Delete
               </Button>          
-      </Card>    
+      </Card>     */}
     </div>
   );
 };
